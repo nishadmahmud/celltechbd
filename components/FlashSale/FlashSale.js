@@ -53,12 +53,12 @@ export default function FlashSale({ products = [] }) {
 
                     {/* Left: Flash Sale Banner */}
                     <div className="w-full lg:w-[35%] flex-shrink-0">
-                        <div className="relative w-full h-[200px] sm:h-[300px] lg:h-full min-h-[400px] rounded-2xl overflow-hidden bg-brand-primary/5 border border-brand-primary/10">
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-10">
-                                <FiZap className="text-brand-primary w-12 h-12 mb-4" />
-                                <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Flash Sale</h3>
-                                <p className="text-gray-500 text-sm md:text-base mb-4">Grab the best deals before they're gone!</p>
-                                <div className="bg-brand-primary text-white font-bold text-sm px-6 py-2.5 rounded-full">
+                        <div className="relative w-full h-[120px] sm:h-[180px] lg:h-full min-h-[150px] md:min-h-[400px] rounded-2xl overflow-hidden bg-brand-primary/5 border border-brand-primary/10 transition-all duration-300">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 md:p-6 z-10">
+                                <FiZap className="text-brand-primary w-8 h-8 md:w-12 md:h-12 mb-2 md:mb-4" />
+                                <h3 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-1 md:mb-2">Flash Sale</h3>
+                                <p className="text-gray-500 text-[10px] md:text-sm lg:text-base mb-3 md:mb-4 hidden sm:block">Grab the best deals before they're gone!</p>
+                                <div className="bg-brand-primary text-white font-bold text-[10px] md:text-sm px-4 py-1.5 md:px-6 md:py-2.5 rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                                     Shop Now
                                 </div>
                             </div>
@@ -69,7 +69,7 @@ export default function FlashSale({ products = [] }) {
                     <div className="flex-1">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
                             {displayProducts.length > 0 ? displayProducts.slice(0, 6).map((product) => (
-                                <ProductCard key={product.id} product={product} />
+                                <ProductCard key={product.id} product={product} variant="compact" />
                             )) : (
                                 <div className="col-span-full py-10 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-200">
                                     No flash sale products available right now.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { FiPlus, FiMinus, FiHelpCircle } from 'react-icons/fi';
 
 export default function FAQ() {
     const faqs = [
@@ -39,60 +39,86 @@ export default function FAQ() {
         }
     ];
 
-    const [openIndex, setOpenIndex] = useState(null);
+    const [openIndex, setOpenIndex] = useState(0);
 
     const toggle = (idx) => {
         setOpenIndex(openIndex === idx ? null : idx);
     };
 
     return (
-        <section className="bg-white py-12 md:py-20 border-b border-gray-100">
+        <section className="bg-white py-14 md:py-24 border-b border-gray-50 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 
-                <div className="text-center mb-10 md:mb-14">
-                    <h2 className="text-xl md:text-[28px] font-extrabold tracking-tight mb-2">
-                        <span className="text-gray-800">Frequently Asked </span>
-                        <span className="text-brand-primary">Questions</span>
-                    </h2>
-                    <p className="text-sm text-gray-500">Find answers to common questions about Cell Tech BD</p>
-                </div>
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+                    
+                    {/* Left Side: Header & CTA */}
+                    <div className="lg:w-1/3 lg:sticky lg:top-32 self-start">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider mb-6">
+                            <FiHelpCircle className="w-3.5 h-3.5" />
+                            <span>Help Center</span>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 mb-6 leading-[1.1]">
+                            Got <span className="text-brand-primary">Questions?</span><br />
+                            We hold the <span className="underline decoration-brand-primary/30 underline-offset-4">Answers.</span>
+                        </h2>
+                        <p className="text-base text-gray-500 mb-8 max-w-md leading-relaxed">
+                            Can't find what you're looking for? Our support team is ready to assist you with any inquiries regarding our products and services.
+                        </p>
+                        <div className="flex flex-col gap-4">
+                            <a href="/contact" className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-brand-primary transition-all duration-300">
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
 
-                <div className="max-w-4xl mx-auto flex flex-col gap-3">
-                    {faqs.map((faq, idx) => (
-                        <div 
-                            key={idx} 
-                            className={`bg-white border rounded-xl overflow-hidden transition-all duration-300 ${openIndex === idx ? 'border-brand-primary/30 shadow-sm' : 'border-gray-200 hover:border-gray-300'}`}
-                        >
-                            <button
-                                onClick={() => toggle(idx)}
-                                className="w-full flex items-center justify-between p-4 md:p-5 text-left"
-                            >
-                                <h4 className="text-sm md:text-base font-bold text-gray-900 pr-4 leading-snug">
-                                    {faq.question}
-                                </h4>
-                                <FiChevronDown 
-                                    className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${openIndex === idx ? 'rotate-180 text-brand-primary' : ''}`} 
-                                />
-                            </button>
+                    {/* Right Side: Accordion */}
+                    <div className="lg:w-2/3 flex flex-col gap-4">
+                        {faqs.map((faq, idx) => (
                             <div 
-                                className={`overflow-hidden transition-all duration-300 ${openIndex === idx ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}
+                                key={idx} 
+                                className={`group bg-white rounded-2xl transition-all duration-500 border ${openIndex === idx ? 'border-brand-primary/20 shadow-[0_8px_30px_rgb(57,178,74,0.06)]' : 'border-gray-100 hover:border-gray-200'}`}
                             >
-                                <div className="px-4 md:px-5 pb-4 md:pb-5">
-                                    <p className="text-sm text-gray-500 leading-relaxed">
-                                        {faq.answer.split(/(Cell Tech BD)/g).map((part, i) => (
-                                            <span key={i} className={
-                                                part === "Cell Tech BD"
-                                                ? "text-brand-primary font-semibold"
-                                                : ""
-                                            }>
-                                                {part}
-                                            </span>
-                                        ))}
-                                    </p>
+                                <button
+                                    onClick={() => toggle(idx)}
+                                    className="w-full flex items-center justify-between p-5 md:p-6 text-left"
+                                >
+                                    <div className="flex items-center gap-4 md:gap-6 pr-4">
+                                        <span className={`text-lg md:text-xl font-black transition-colors duration-300 ${openIndex === idx ? 'text-brand-primary' : 'text-gray-300'}`}>
+                                            {(idx + 1).toString().padStart(2, '0')}
+                                        </span>
+                                        <h4 className={`text-base md:text-[17px] font-extrabold leading-tight transition-colors duration-300 ${openIndex === idx ? 'text-gray-900' : 'text-gray-700 group-hover:text-gray-900'}`}>
+                                            {faq.question}
+                                        </h4>
+                                    </div>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openIndex === idx ? 'bg-brand-primary text-white rotate-0' : 'bg-gray-50 text-gray-400 rotate-90'}`}>
+                                        {openIndex === idx ? <FiMinus className="w-4 h-4" /> : <FiPlus className="w-4 h-4" />}
+                                    </div>
+                                </button>
+                                <div 
+                                    className={`grid transition-all duration-500 ease-in-out ${openIndex === idx ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                                >
+                                    <div className="overflow-hidden">
+                                        <div className="px-5 md:px-6 pb-6 md:pb-7 flex gap-4 md:gap-6">
+                                            {/* Spacer to match the index number alignment */}
+                                            <div className="w-10 md:w-14 flex-shrink-0" />
+                                            <p className="text-[15px] md:text-base text-gray-500 leading-relaxed max-w-2xl">
+                                                {faq.answer.split(/(Cell Tech BD)/g).map((part, i) => (
+                                                    <span key={i} className={
+                                                        part === "Cell Tech BD"
+                                                        ? "text-brand-primary font-bold"
+                                                        : ""
+                                                    }>
+                                                        {part}
+                                                    </span>
+                                                ))}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
                 </div>
             </div>
         </section>

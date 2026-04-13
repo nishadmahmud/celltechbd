@@ -8,6 +8,7 @@ import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX, FiMic, FiChevronRight, F
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { searchProducts } from '../../lib/api';
+import { useWishlist } from '../../context/WishlistContext';
 
 export default function Header({ categories = [] }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function Header({ categories = [] }) {
   const [showSearchModal, setShowSearchModal] = useState(false);
 
   const { cartCount, openCart } = useCart();
+  const { wishlistCount } = useWishlist();
   const { user, openAuthModal } = useAuth();
   const router = useRouter();
 
@@ -88,17 +90,19 @@ export default function Header({ categories = [] }) {
               <Image src="/CTBD Text.png" alt="Cell Tech BD" width={140} height={35} className="h-7 w-auto object-contain" unoptimized priority />
             </Link>
 
-            {/* Mobile Search */}
-            <form onSubmit={handleSearchSubmit} className="flex-grow flex items-center bg-gray-50 border border-gray-200 focus-within:border-brand-primary rounded-full px-3 py-1.5 mx-1 group">
-              <FiSearch className="text-gray-400 group-focus-within:text-brand-primary mr-2 flex-shrink-0 w-4 h-4" />
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search..." className="flex-grow bg-transparent border-none outline-none text-sm text-gray-800 min-w-0 w-full" style={{ fontSize: '16px' }} />
-            </form>
+            {/* Mobile Search Trigger */}
+            <div 
+              onClick={openSearchModal} 
+              className="flex-grow flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 mx-1 cursor-pointer"
+            >
+              <FiSearch className="text-gray-400 mr-2 flex-shrink-0 w-4 h-4" />
+              <span className="text-gray-400 text-base">Search...</span>
+            </div>
 
             <div className="flex items-center gap-1.5">
-              <button onClick={openCart} className="text-gray-700 relative p-1" aria-label="Cart">
-                <FiShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[8px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center">{cartCount}</span>}
-              </button>
+              <Link href="/track-order" className="text-gray-700 p-1" aria-label="Track Order">
+                <FiMapPin className="w-5 h-5" />
+              </Link>
               <button onClick={() => setIsSidebarOpen(true)} className="text-gray-800 p-1 flex-shrink-0" aria-label="Menu">
                 <FiMenu className="w-6 h-6" />
               </button>
@@ -130,10 +134,10 @@ export default function Header({ categories = [] }) {
                           {displayCategories.map((cat, idx) => (
                             <Link key={cat.id || idx} href={`/category/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`}
                               className="flex flex-col items-center group/cat">
-                              <div className="w-full aspect-square rounded-xl bg-[#F5F5F5] border border-gray-200 overflow-hidden relative flex items-center justify-center group-hover/cat:bg-[#EFEFEF] group-hover/cat:border-gray-300 transition-all">
+                              <div className="w-full aspect-square rounded-xl overflow-visible relative flex items-center justify-center group-hover/cat:bg-[#F0F0F0] transition-all">
                                 {(cat.image_url || cat.image || cat.image_path) ? (
                                   <div className="relative w-[75%] h-[75%]">
-                                    <Image src={cat.image_url || cat.image || cat.image_path} alt={cat.name} fill className="object-contain group-hover/cat:scale-[1.02] transition-transform duration-300" unoptimized />
+                                    <Image src={cat.image_url || cat.image || cat.image_path} alt={cat.name} fill className="object-contain group-hover/cat:scale-105 transition-transform duration-300" unoptimized />
                                   </div>
                                 ) : (
                                   <FiGrid size={20} className="text-gray-400" />
@@ -206,9 +210,14 @@ export default function Header({ categories = [] }) {
                 </button>
 
                 {/* Wishlist */}
-                <button className="text-gray-300 hover:text-brand-primary p-2.5 rounded-full hover:bg-white/5 transition-all relative" aria-label="Wishlist">
+                <Link href="/wishlist" className="text-gray-300 hover:text-brand-primary p-2.5 rounded-full hover:bg-white/5 transition-all relative" aria-label="Wishlist">
                   <FiHeart size={18} />
-                </button>
+                  {wishlistCount > 0 && (
+                    <span className="absolute top-1 right-1 bg-brand-primary text-white text-[8px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center ring-1 ring-[#1E3E28]">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
 
                 {/* Cart */}
                 <button onClick={openCart} className="text-gray-300 hover:text-brand-primary p-2.5 rounded-full hover:bg-white/5 transition-all relative" aria-label="Cart">

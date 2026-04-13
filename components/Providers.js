@@ -2,6 +2,7 @@
 
 import { CartProvider } from "../context/CartContext";
 import { AuthProvider } from "../context/AuthContext";
+import { WishlistProvider } from "../context/WishlistContext";
 import CartSidebar from "./Shared/CartSidebar";
 import AuthModal from "./Auth/AuthModal";
 import { Toaster } from "react-hot-toast";
@@ -9,23 +10,25 @@ import { Toaster } from "react-hot-toast";
 export default function Providers({ children }) {
     return (
         <AuthProvider>
-            <CartProvider>
-                {children}
-                <CartSidebar />
-                <AuthModal />
-                <Toaster
-                    position="top-center"
-                    toastOptions={{
-                        duration: 3000,
-                        style: {
-                            background: '#1f2937',
-                            color: '#fff',
-                            fontSize: '14px',
-                            borderRadius: '12px',
-                        },
-                    }}
-                />
-            </CartProvider>
+            <WishlistProvider>
+                <CartProvider>
+                    {children}
+                    <CartSidebar />
+                    <AuthModal />
+                    <Toaster
+                        position="top-center"
+                        toastOptions={{
+                            duration: 3000,
+                            style: {
+                                background: '#1f2937',
+                                color: '#fff',
+                                fontSize: '14px',
+                                borderRadius: '12px',
+                            },
+                        }}
+                    />
+                </CartProvider>
+            </WishlistProvider>
         </AuthProvider>
     );
 }

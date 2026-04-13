@@ -19,28 +19,42 @@ body {
   color: #1f2937;
 }
 
-/* Global slim brand scrollbar — green */
-* {
+/* Custom Scrollbars */
+:root {
+  scrollbar-gutter: stable;
+}
+
+html {
   scrollbar-width: thin;
-  scrollbar-color: #39B24A #f3f4f6;
+  scrollbar-color: #39B24A rgba(0, 0, 0, 0.05);
 }
 
-*::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-*::-webkit-scrollbar-track {
-  background: #f3f4f6;
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
 }
 
-*::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: #39B24A;
-  border-radius: 9999px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background-clip: content-box;
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background: #2e9a3d;
+::-webkit-scrollbar-thumb:hover {
+  background: #2E8B3A;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+/* Custom selection color */
+::selection {
+  background-color: #39B24A;
+  color: #ffffff;
 }
 
 @keyframes marquee {
