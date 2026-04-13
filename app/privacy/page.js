@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-    title: "Privacy Policy | Pochondo Shop",
-    description: "Pochondo Shop privacy policy — how we collect, use, and protect your personal information.",
+    title: "Privacy Policy | Cell Tech BD",
+    description: "Cell Tech BD privacy policy — how we collect, use, and protect your personal information.",
 };
 
 const sections = [
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             <div className="max-w-4xl mx-auto px-4 md:px-8 -mt-6">
                 <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10">
                     <p className="text-sm text-gray-600 leading-relaxed mb-8">
-                        At Pochondo Shop, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase.
+                        At Cell Tech BD, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase.
                     </p>
 
                     <div className="space-y-8">

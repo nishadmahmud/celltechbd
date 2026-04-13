@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { SITE_INFO } from '../../lib/siteInfo';
 
 export const metadata = {
-    title: 'About Us | Pochondo Shop',
-    description: 'Learn about Pochondo Shop and our outlets across Dhaka.',
+    title: 'About Us | Cell Tech BD',
+    description: 'Learn about Cell Tech BD and our outlets across Dhaka.',
 };
 
 export default function AboutPage() {
@@ -11,9 +11,9 @@ export default function AboutPage() {
         <div className="bg-white min-h-screen">
             <div className="bg-gradient-to-br from-brand-purple/10 via-purple-50 to-white py-16 md:py-24">
                 <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">About <span className="text-brand-purple">Pochondo Shop</span></h1>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">About <span className="text-brand-purple">Cell Tech BD</span></h1>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Pochondo Shop serves customers through online channels and physical outlets with authentic gadgets and reliable support.
+                        Cell Tech BD serves customers through online channels and physical outlets with authentic gadgets and reliable support.
                     </p>
                 </div>
             </div>

@@ -112,39 +112,37 @@ export default function BrandProductSection({ brands = [] }) {
     };
 
     return (
-        <section className="bg-white py-16 md:py-24">
+        <section className="bg-white py-10 md:py-16">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 
-                {/* Header with Title and Scroll Arrows */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
-                    <div>
-                        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                            Top Brand <span className="text-brand-purple">Products</span>
-                        </h2>
-                        <p className="text-gray-500 text-xs md:text-lg mt-2 hidden sm:block">Shop by your favorite brands and find the best tech.</p>
-                    </div>
+                {/* Header */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-10 gap-4">
+                    <h2 className="text-xl md:text-[28px] font-extrabold tracking-tight">
+                        <span className="text-gray-800">Top Brand </span>
+                        <span className="text-brand-primary">Products</span>
+                    </h2>
                     
-                    {/* Navigation Arrows for Tab Overflow */}
+                    {/* Navigation Arrows */}
                     {brands.length > 0 && (
-                        <div className="hidden md:flex items-center gap-3">
+                        <div className="hidden md:flex items-center gap-2">
                             <button 
                                 onClick={() => scroll('left')}
-                                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm"
+                                className="w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-brand-primary hover:text-brand-primary transition-colors"
                             >
-                                <FiChevronLeft size={20} className="text-gray-600" />
+                                <FiChevronLeft size={18} className="text-gray-600" />
                             </button>
                             <button 
                                 onClick={() => scroll('right')}
-                                className="w-10 h-10 rounded-full bg-brand-blue text-white flex items-center justify-center hover:opacity-90 transition-shadow shadow-lg hover:shadow-xl"
+                                className="w-9 h-9 rounded-full bg-brand-primary text-white flex items-center justify-center hover:bg-green-600 transition-colors"
                             >
-                                <FiChevronRight size={20} />
+                                <FiChevronRight size={18} />
                             </button>
                         </div>
                     )}
                 </div>
 
-                {/* Brand Filter Pills (Scrollable) */}
-                <div className="relative mb-10">
+                {/* Brand Filter Pills */}
+                <div className="relative mb-8">
                     <div 
                         ref={scrollRef}
                         className="flex items-center gap-2 md:gap-3 overflow-x-auto no-scrollbar pb-2"
@@ -153,9 +151,9 @@ export default function BrandProductSection({ brands = [] }) {
                         {(brands.length > 0 || products.length > 0) && (
                             <button
                                 onClick={() => setActiveBrandId(0)}
-                                className={`px-6 md:px-8 py-2 md:py-3 rounded-full text-sm md:text-base font-bold whitespace-nowrap transition-all duration-300 ${
+                                className={`px-5 md:px-7 py-2 md:py-2.5 rounded-full text-sm md:text-base font-bold whitespace-nowrap transition-all duration-300 ${
                                     activeBrandId === 0 
-                                    ? "bg-brand-blue text-white shadow-xl scale-105" 
+                                    ? "bg-brand-primary text-white" 
                                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                 }`}
                             >
@@ -168,9 +166,9 @@ export default function BrandProductSection({ brands = [] }) {
                             <button
                                 key={brand.id}
                                 onClick={() => setActiveBrandId(brand.id)}
-                                className={`px-6 md:px-8 py-2 md:py-3 rounded-full text-sm md:text-base font-bold whitespace-nowrap transition-all duration-300 ${
+                                className={`px-5 md:px-7 py-2 md:py-2.5 rounded-full text-sm md:text-base font-bold whitespace-nowrap transition-all duration-300 ${
                                     activeBrandId === brand.id 
-                                    ? "bg-brand-blue text-white shadow-xl scale-105" 
+                                    ? "bg-brand-primary text-white" 
                                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                 }`}
                             >
@@ -187,15 +185,15 @@ export default function BrandProductSection({ brands = [] }) {
                 {/* Product Grid */}
                 <div className="relative min-h-[300px]">
                     {loading ? (
-                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 animate-pulse">
-                            {[1, 2, 3, 4, 5].map((n) => (
-                                <div key={n} className="bg-gray-100 rounded-2xl h-[300px] md:h-[400px]" />
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 animate-pulse">
+                            {[1, 2, 3, 4].map((n) => (
+                                <div key={n} className="bg-gray-100 rounded-2xl h-[300px] md:h-[380px]" />
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 transition-all duration-500">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 transition-all duration-500">
                             {products.length > 0 ? (
-                                products.slice(0, 10).map((product) => (
+                                products.slice(0, 8).map((product) => (
                                     <ProductCard key={product.id} product={product} />
                                 ))
                             ) : (

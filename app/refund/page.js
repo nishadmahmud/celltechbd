@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-    title: 'Refund Policy | Pochondo Shop',
+    title: 'Refund Policy | Cell Tech BD',
     description: 'Our refund and return policy. Learn about our hassle-free return process.',
 };
 

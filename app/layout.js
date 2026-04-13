@@ -18,22 +18,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Pochondo Shop | Premium Tech & Gadgets",
-  description: "Your ultimate destination for smartphones, laptops, custom PCs, gaming gear, and tech accessories in Bangladesh.",
+  title: "Cell Tech BD | Premium Tech & Gadgets",
+  description: "Cell Tech BD is your ultimate destination for authentic smartphones, laptops, custom PCs, gaming gear, and tech accessories in Bangladesh.",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Pochondo Shop | Premium Tech & Gadgets",
+    title: "Cell Tech BD | Premium Tech & Gadgets",
     description: "Your ultimate destination for smartphones, laptops, custom PCs, gaming gear, and tech accessories in Bangladesh.",
-    url: "https://Cell Tech BD.com", // Adjust this if the base URL is different
-    siteName: "Pochondo Shop",
+    url: "https://celltechbd.com", 
+    siteName: "Cell Tech BD",
     images: [
       {
-        url: "/og.jpeg",
+        url: "/CELL LOGO-01~2.jpg.jpeg",
         width: 1200,
         height: 630,
-        alt: "Pochondo Shop Showcase",
+        alt: "Cell Tech BD Showcase",
       },
     ],
     locale: "en_US",
@@ -41,9 +41,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pochondo Shop | Premium Tech & Gadgets",
+    title: "Cell Tech BD | Premium Tech & Gadgets",
     description: "Your ultimate destination for smartphones, laptops, custom PCs, gaming gear, and tech accessories.",
-    images: ["/og.jpeg"],
+    images: ["/CELL LOGO-01~2.jpg.jpeg"],
   },
 };
 

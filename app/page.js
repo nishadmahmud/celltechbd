@@ -1,7 +1,8 @@
 import Hero from "../components/Hero/Hero";
 import ShopCategories from "../components/ShopCategories/ShopCategories";
+import PromoBanners from "../components/PromoBanners/PromoBanners";
+import FlashSale from "../components/FlashSale/FlashSale";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
-import WidePromoBanner from "../components/WidePromoBanner/WidePromoBanner";
 import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
 import BestDeals from "../components/BestDeals/BestDeals";
 import Testimonials from "../components/Testimonials/Testimonials";
@@ -217,10 +218,11 @@ export default async function Home() {
 
   return (
     <>
-      <Hero slides={heroSlides} banners={homeBanners} />
-      <ShopCategories categories={categories} flashSaleProducts={flashSaleProducts} />
+      <Hero slides={heroSlides} />
+      <ShopCategories categories={categories} />
+      <PromoBanners banners={homeBanners} />
+      <FlashSale products={flashSaleProducts} />
       <NewArrivals products={newArrivals} />
-      <WidePromoBanner />
       <FeaturedProducts products={featuredProducts} />
       <BrandProductSection brands={topBrands} />
       <BestDeals deals={bestDealsCards} />
@@ -231,4 +233,3 @@ export default async function Home() {
     </>
   );
 }
-

@@ -1,33 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-blue: #2596be;
-  --color-brand-red: #f34f60;
-  --color-brand-purple: #652d8f;
+  --color-brand-primary: #39B24A;
+  --color-brand-secondary: #4D4D4D;
+  --color-brand-purple: #39B24A;
+  --color-brand-blue: #39B24A;
+  --color-brand-red: #ff2a3b;
+  --color-brand-green: #39B24A;
+  --color-card-bg: #F0F1F2;
+  --color-footer-bg: #F5F6F8;
+  --color-nav-dark: #3D3D3D;
   --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono);
-}
-
-/* Base styles for dark mode overrides, though we will primarily stick to light mode classes for content */
-@media (prefers-color-scheme: dark) {
-
-  /* We allow dark mode body background for now, but individual sections will force bg-white where requested */
-  body {
-    background-color: #0a0a0a;
-    color: #ededed;
-  }
 }
 
 body {
   background-color: #ffffff;
   color: #1f2937;
-  /* Tailwind gray-800 */
 }
 
-/* Global slim brand scrollbar */
+/* Global slim brand scrollbar — green */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #652d8f #f3f4f6;
+  scrollbar-color: #39B24A #f3f4f6;
 }
 
 *::-webkit-scrollbar {
@@ -40,12 +35,12 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #652d8f;
+  background: #39B24A;
   border-radius: 9999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #522674;
+  background: #2e9a3d;
 }
 
 @keyframes marquee {
@@ -101,4 +96,11 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Section title style — green italic */
+.section-title-green {
+  color: #39B24A;
+  font-style: italic;
+  font-weight: 600;
 }

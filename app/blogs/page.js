@@ -7,7 +7,7 @@ import { mapApiBlogsToPosts } from "../../lib/blogs";
 export const metadata = {
   title: "Blogs | Tech Insights & Guides",
   description:
-    "Explore the latest updates, offers, and insights from Pochondo Shop.",
+    "Explore the latest updates, offers, and insights from Cell Tech BD.",
 };
 
 export default async function BlogsPage() {

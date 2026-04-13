@@ -35,37 +35,37 @@ export default function NewArrivals({ products = [] }) {
     };
 
     return (
-        <section className="bg-white py-16 md:py-28 border-b border-gray-50">
+        <section className="bg-white py-10 md:py-16 border-b border-gray-50">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 <div className="flex items-center justify-between mb-6 md:mb-8">
-                    <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                        Latest <span className="text-brand-purple">Drops</span>
+                    <h2 className="text-xl md:text-[28px] font-extrabold tracking-tight">
+                        <span className="text-gray-800">Latest </span>
+                        <span className="text-brand-primary">Products</span>
                     </h2>
 
                     <div className="hidden md:flex gap-2">
                         <button
                             onClick={scrollLeft}
-                            className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-colors bg-black text-white hover:bg-gray-800"
+                            className="w-9 h-9 rounded-full flex items-center justify-center transition-colors border-2 border-gray-200 text-gray-600 hover:border-brand-primary hover:text-brand-primary"
                         >
-                            <FiChevronLeft size={20} />
+                            <FiChevronLeft size={18} />
                         </button>
                         <button
                             onClick={scrollRight}
-                            className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-colors bg-black text-white hover:bg-gray-800"
+                            className="w-9 h-9 rounded-full flex items-center justify-center transition-colors bg-brand-primary text-white hover:bg-green-600"
                         >
-                            <FiChevronRight size={20} />
+                            <FiChevronRight size={18} />
                         </button>
                     </div>
                 </div>
 
                 {sourceProducts.length > 0 && (
-                    <div className="flex gap-3 mb-10 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
+                    <div className="flex gap-2 mb-8 overflow-x-auto no-scrollbar pb-2">
                         {brands.map((brand, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => handleBrandChange(brand)}
-                                className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold whitespace-nowrap transition-colors ${activeBrand === brand ? 'bg-brand-blue text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold whitespace-nowrap transition-all ${activeBrand === brand ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                             >
                                 {brand}
                             </button>
@@ -76,12 +76,10 @@ export default function NewArrivals({ products = [] }) {
                 <div className="overflow-hidden relative">
                     <div
                         ref={sliderRef}
-                        className="flex overflow-x-auto gap-3 md:gap-5 pb-4 snap-x snap-mandatory flex-nowrap"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        className="flex overflow-x-auto gap-3 md:gap-4 pb-4 snap-x snap-mandatory flex-nowrap no-scrollbar"
                     >
-                        <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
                         {filteredProducts.length > 0 ? filteredProducts.map((product, idx) => (
-                            <div key={product.id || idx} className="w-[calc(50%-6px)] md:w-[calc(33.333%-14px)] lg:w-[calc(20%-16px)] shrink-0 snap-start">
+                            <div key={product.id || idx} className="w-[calc(50%-6px)] md:w-[calc(25%-12px)] lg:w-[calc(20%-13px)] shrink-0 snap-start">
                                 <ProductCard product={product} />
                             </div>
                         )) : (

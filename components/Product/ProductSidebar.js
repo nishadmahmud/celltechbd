@@ -25,11 +25,11 @@ export default function ProductSidebar({ product, pricingInfo, selectedCarePlans
     } else if (isCable) {
         carePlansToShow = [{ id: 'warranty_cable', name: '6 Month Instant Replacement Warranty', description: 'Instant replacement for manufacturing issues', price: 0 }];
     } else if (isLaptop) {
-        carePlansToShow = [{ id: 'care_laptop', name: 'Pochondo Care+ 1 Year', description: 'Brand new replacement support', price: Math.round(selectedPrice * 0.05) }];
+        carePlansToShow = [{ id: 'care_laptop', name: 'Cell Tech Care+ 1 Year', description: 'Brand new replacement support', price: Math.round(selectedPrice * 0.05) }];
     } else if (isPhoneCategory) {
         carePlansToShow = [
-            { id: 'care_phone', name: 'Pochondo Care+ 1 Year', description: 'Brand new replacement support', price: Math.round(selectedPrice * 0.05) },
-            { id: 'screen_care', name: 'Pochondo Screen Care+ (730 days)', description: 'One-time display replacement (excluding physical damage)', price: Math.round(selectedPrice * 0.06) },
+            { id: 'care_phone', name: 'Cell Tech Care+ 1 Year', description: 'Brand new replacement support', price: Math.round(selectedPrice * 0.05) },
+            { id: 'screen_care', name: 'Cell Tech Screen Care+ (730 days)', description: 'One-time display replacement (excluding physical damage)', price: Math.round(selectedPrice * 0.06) },
             { id: 'parts', name: '1 Year Parts Warranty', description: 'Coverage for key internal parts', price: Math.round(selectedPrice * 0.04) }
         ];
     } else {
@@ -94,7 +94,7 @@ export default function ProductSidebar({ product, pricingInfo, selectedCarePlans
             <div className="border border-gray-200 rounded-xl overflow-hidden">
                 <div className="bg-black text-white px-4 py-3 flex items-center gap-2">
                     <FiShield className="text-brand-purple" size={16} />
-                    <span className="font-bold text-sm">Pochondo Care+</span>
+                    <span className="font-bold text-sm">Cell Tech Care+</span>
                 </div>
                 <div className="p-3 space-y-2 bg-white">
                     {carePlansToShow.map((plan) => {
@@ -123,7 +123,7 @@ export default function ProductSidebar({ product, pricingInfo, selectedCarePlans
 
                     <p className="text-[11px] text-gray-500 flex items-center gap-1 pt-1">
                         <FiCheckCircle className="text-green-600" />
-                        I agree to Pochondo Shop&apos;s <a href="/terms" target="_blank" className="underline hover:text-brand-purple">terms & conditions</a>
+                        I agree to Cell Tech BD&apos;s <a href="/terms" target="_blank" className="underline hover:text-brand-purple">terms & conditions</a>
                     </p>
                 </div>
             </div>

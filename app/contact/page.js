@@ -1,6 +1,6 @@
 export const metadata = {
-    title: 'Contact Us | Pochondo Shop',
-    description: 'Get in touch with Pochondo Shop for product help, order support, and outlet information.',
+    title: 'Contact Us | Cell Tech BD',
+    description: 'Get in touch with Cell Tech BD for product help, order support, and outlet information.',
 };
 
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
@@ -11,7 +11,7 @@ export default function ContactPage() {
         <div className="bg-white min-h-screen">
             <div className="bg-gradient-to-br from-brand-purple/10 via-purple-50 to-white py-16 md:py-24">
                 <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Contact <span className="text-brand-purple">Pochondo Shop</span></h1>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Contact <span className="text-brand-purple">Cell Tech BD</span></h1>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         Reach us by phone, WhatsApp, or email. You can also visit any of our outlets listed below.
                     </p>

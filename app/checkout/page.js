@@ -57,7 +57,7 @@ export default function CheckoutPage() {
 
     // Load saved details on mount
     useEffect(() => {
-        const savedDetails = localStorage.getItem("Cell Tech BDCheckoutDetails");
+        const savedDetails = localStorage.getItem("CellTechBDCheckoutDetails");
         if (savedDetails) {
             try {
                 const parsed = JSON.parse(savedDetails);
@@ -219,7 +219,7 @@ export default function CheckoutPage() {
                 district: selectedDistrict,
                 city: selectedCity
             };
-            localStorage.setItem("Cell Tech BDCheckoutDetails", JSON.stringify(detailsToSave));
+            localStorage.setItem("CellTechBDCheckoutDetails", JSON.stringify(detailsToSave));
         } catch (error) {
             console.error("Failed to save checkout details to local storage", error);
         }
@@ -590,7 +590,7 @@ export default function CheckoutPage() {
                                     </div>
                                     {careTotal > 0 && (
                                         <div className="flex justify-between text-sm text-gray-600">
-                                            <span>Pochondo Care+</span>
+                                            <span>Cell Tech Care+</span>
                                             <span className="font-medium">{formatPrice(careTotal)}</span>
                                         </div>
                                     )}
