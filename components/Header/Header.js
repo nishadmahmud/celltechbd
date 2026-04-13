@@ -24,7 +24,7 @@ export default function Header({ categories = [] }) {
   const { user, openAuthModal } = useAuth();
   const router = useRouter();
 
-  const displayCategories = (Array.isArray(categories) ? categories : []).slice(0, 7);
+  const displayCategories = Array.isArray(categories) ? categories : [];
 
   const handleUserClick = () => {
     if (user) { router.push('/profile'); }
@@ -113,22 +113,36 @@ export default function Header({ categories = [] }) {
 
               {/* Left Nav Items */}
               <div className="flex items-center gap-0.5">
-                {/* Categories Dropdown */}
+                {/* Categories Mega Dropdown */}
                 <div className="relative group">
                   <button className="flex items-center gap-1.5 text-gray-300 hover:text-brand-primary text-[13px] font-semibold px-4 py-2.5 rounded-full hover:bg-white/5 transition-all whitespace-nowrap">
                     Categories
                     <FiChevronDown size={13} className="opacity-70 group-hover:rotate-180 transition-transform duration-300" />
                   </button>
                   {displayCategories.length > 0 && (
-                    <div className="absolute top-full left-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-                      <div className="py-2">
-                        {displayCategories.map((cat, idx) => (
-                          <Link key={cat.id || idx} href={`/category/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 font-medium hover:text-brand-primary hover:bg-green-50/50 transition-colors">
-                            {cat.image_url && <Image src={cat.image_url} alt={cat.name} width={24} height={24} className="w-6 h-6 rounded object-cover" unoptimized />}
-                            <span>{cat.name}</span>
-                          </Link>
-                        ))}
+                    <div className="absolute top-full -left-4 mt-3 w-[520px] bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                      <div className="p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-sm font-bold text-gray-800">All Categories</h3>
+                          <Link href="/category" className="text-[11px] font-semibold text-brand-primary hover:underline">View All →</Link>
+                        </div>
+                        <div className="grid grid-cols-4 gap-3 max-h-[400px] overflow-y-auto no-scrollbar">
+                          {displayCategories.map((cat, idx) => (
+                            <Link key={cat.id || idx} href={`/category/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                              className="flex flex-col items-center group/cat">
+                              <div className="w-full aspect-square rounded-xl bg-[#F5F5F5] border border-gray-200 overflow-hidden relative flex items-center justify-center group-hover/cat:bg-[#EFEFEF] group-hover/cat:border-gray-300 transition-all">
+                                {(cat.image_url || cat.image || cat.image_path) ? (
+                                  <div className="relative w-[75%] h-[75%]">
+                                    <Image src={cat.image_url || cat.image || cat.image_path} alt={cat.name} fill className="object-contain group-hover/cat:scale-[1.02] transition-transform duration-300" unoptimized />
+                                  </div>
+                                ) : (
+                                  <FiGrid size={20} className="text-gray-400" />
+                                )}
+                              </div>
+                              <span className="text-[11px] font-semibold text-gray-700 group-hover/cat:text-brand-primary transition-colors text-center line-clamp-2 leading-tight mt-2">{cat.name}</span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}

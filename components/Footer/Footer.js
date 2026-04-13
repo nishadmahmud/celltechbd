@@ -87,7 +87,7 @@ export default function Footer() {
                         <div>
                             <h3 className="text-sm font-bold text-gray-900 mb-3">Pay With</h3>
                             <Image
-                                src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-01.png"
+                                src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-05.png"
                                 alt="Payment Methods"
                                 width={280}
                                 height={60}

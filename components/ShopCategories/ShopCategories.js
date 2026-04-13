@@ -28,30 +28,32 @@ export default function ShopCategories({ categories = [] }) {
                     </Link>
                 </div>
 
-                {/* Category Grid — 4 cols mobile, 8 cols desktop */}
-                <div className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-5">
+                {/* Category Grid — Image-first cards */}
+                <div className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-4">
                     {displayCategories.length > 0 ? displayCategories.map((cat, idx) => (
                         <Link
                             href={`/category/${cat.slug || (typeof cat.name === 'string' ? encodeURIComponent(cat.name.toLowerCase().replace(/\s+/g, '-')) : 'all')}`}
                             key={cat.id || idx}
-                            className="flex flex-col items-center gap-2 md:gap-3 group p-2 md:p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                            className="flex flex-col group"
                         >
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-card-bg flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-brand-primary transition-all duration-300">
+                            {/* Image Card — full bleed, no padding */}
+                            <div className="aspect-square rounded-2xl bg-[#F5F5F5] border border-gray-200 overflow-hidden relative flex items-center justify-center group-hover:bg-[#EFEFEF] group-hover:border-gray-300 transition-all duration-300">
                                 {cat.image || cat.image_path || cat.image_url ? (
-                                    <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-14 md:h-14">
+                                    <div className="relative w-[80%] h-[80%]">
                                         <Image
                                             src={cat.image || cat.image_path || cat.image_url}
                                             alt={cat.name}
                                             fill
                                             unoptimized
-                                            className="object-contain"
+                                            className="object-contain group-hover:scale-[1.02] transition-transform duration-300"
                                         />
                                     </div>
                                 ) : (
-                                    <FiBox className="w-5 h-5 md:w-7 md:h-7 text-gray-400" />
+                                    <FiBox className="w-8 h-8 md:w-10 md:h-10 text-gray-400" />
                                 )}
                             </div>
-                            <span className="text-[10px] sm:text-[11px] md:text-[13px] font-semibold text-gray-700 group-hover:text-brand-primary transition-colors text-center line-clamp-2 leading-tight">
+                            {/* Name below */}
+                            <span className="text-[10px] sm:text-[11px] md:text-[13px] font-semibold text-gray-700 group-hover:text-brand-primary transition-colors text-center line-clamp-2 leading-tight mt-2 md:mt-3">
                                 {cat.name}
                             </span>
                         </Link>
