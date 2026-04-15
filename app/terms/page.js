@@ -1,82 +1,104 @@
+import { SITE_INFO } from '../../lib/siteInfo';
+
 export const metadata = {
     title: 'Terms & Conditions | Cell Tech BD',
-    description: 'Read our terms and conditions, privacy policy, and usage guidelines for Cell Tech BD.',
+    description: 'Read our terms and conditions for using Cell Tech BD services and products.',
 };
+
+const sections = [
+    {
+        title: '1. General Terms',
+        content: 'By accessing and placing an order with Cell Tech BD, you confirm that you agree to and are bound by the terms and conditions contained herein. These terms apply to the entire website and any email or other communication between you and Cell Tech BD.',
+    },
+    {
+        title: '2. Products & Pricing',
+        items: [
+            'All prices are listed in Bangladeshi Taka (BDT) and include applicable taxes unless stated otherwise.',
+            'Prices are subject to change without prior notice.',
+            'Product images are for illustration purposes and may differ slightly from the actual product.',
+            'We reserve the right to limit order quantities.',
+        ],
+    },
+    {
+        title: '3. Orders & Payment',
+        items: [
+            'All orders are subject to acceptance and availability.',
+            'We accept Cash on Delivery, bank transfers, and mobile banking payments.',
+            'We reserve the right to refuse or cancel any order for any reason.',
+            'Order confirmation does not guarantee product availability.',
+        ],
+    },
+    {
+        title: '4. Delivery',
+        content: 'We deliver across Bangladesh. Delivery times vary depending on your location and product availability. Estimated delivery times are provided at checkout. We are not responsible for delays caused by courier services or force majeure events.',
+    },
+    {
+        title: '5. Privacy Policy',
+        content: 'We value your privacy. Personal information collected during the ordering process is used solely for order fulfillment and customer service. We do not sell or share your personal data with third parties except as necessary for order delivery and payment processing.',
+    },
+    {
+        title: '6. Intellectual Property',
+        content: 'All content on this website, including but not limited to text, images, graphics, logos, and software, is the property of Cell Tech BD or its content suppliers and is protected by intellectual property laws.',
+    },
+    {
+        title: '7. Limitation of Liability',
+        content: 'Cell Tech BD shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services or products purchased through our platform.',
+    },
+    {
+        title: '8. Contact',
+        content: `If you have any questions about these Terms & Conditions, please contact us at ${SITE_INFO.email} or call ${SITE_INFO.callDisplay}.`,
+    },
+];
 
 export default function TermsPage() {
     return (
-        <div className="bg-white min-h-screen">
-            <div className="bg-gradient-to-br from-brand-purple/10 via-purple-50 to-white py-16 md:py-24">
-                <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Terms & <span className="text-brand-purple">Conditions</span></h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Please read these terms and conditions carefully before using our services.
-                    </p>
+        <div className="min-h-screen bg-gray-50 pb-20 md:pb-10">
+            {/* Hero */}
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+                <div className="max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-20 text-center">
+                    <span className="inline-block px-4 py-1.5 bg-brand-purple/20 text-brand-purple text-xs font-bold rounded-full mb-4 border border-brand-purple/20 uppercase tracking-wider">Legal</span>
+                    <h1 className="text-3xl md:text-5xl font-extrabold mb-4">Terms & Conditions</h1>
+                    <p className="text-gray-400 text-sm md:text-base">Last updated: February 2026</p>
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-16 space-y-10">
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">1. General Terms</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        By accessing and placing an order with Cell Tech BD, you confirm that you agree to and are bound by the terms and conditions contained herein. These terms apply to the entire website and any email or other communication between you and Cell Tech BD.
+            {/* Content */}
+            <div className="max-w-4xl mx-auto px-4 md:px-8 -mt-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <p className="text-sm text-gray-600 leading-relaxed mb-8">
+                        Please read these terms and conditions carefully before using Cell Tech BD&apos;s website and services. By using our platform, you agree to be bound by these terms.
                     </p>
-                </section>
 
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Products & Pricing</h2>
-                    <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                        <li>All prices are listed in Bangladeshi Taka (BDT) and include applicable taxes unless stated otherwise</li>
-                        <li>Prices are subject to change without prior notice</li>
-                        <li>Product images are for illustration purposes and may differ slightly from the actual product</li>
-                        <li>We reserve the right to limit order quantities</li>
-                    </ul>
-                </section>
+                    <div className="space-y-8">
+                        {sections.map((section, i) => (
+                            <div key={i}>
+                                <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-3">{section.title}</h2>
+                                {section.content && (
+                                    <p className="text-sm text-gray-600 leading-relaxed">{section.content}</p>
+                                )}
+                                {section.items && (
+                                    <ul className="space-y-2">
+                                        {section.items.map((item, j) => (
+                                            <li key={j} className="text-sm text-gray-600 leading-relaxed flex items-start gap-2">
+                                                <span className="text-brand-purple mt-1.5 flex-shrink-0">•</span>
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        ))}
+                    </div>
 
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Orders & Payment</h2>
-                    <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                        <li>All orders are subject to acceptance and availability</li>
-                        <li>We accept Cash on Delivery, bank transfers, and mobile banking payments</li>
-                        <li>We reserve the right to refuse or cancel any order for any reason</li>
-                        <li>Order confirmation does not guarantee product availability</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Delivery</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        We deliver across Bangladesh. Delivery times vary depending on your location and product availability. Estimated delivery times are provided at checkout. We are not responsible for delays caused by courier services or force majeure events.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Privacy Policy</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        We value your privacy. Personal information collected during the ordering process is used solely for order fulfillment and customer service. We do not sell or share your personal data with third parties except as necessary for order delivery and payment processing.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Intellectual Property</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        All content on this website, including but not limited to text, images, graphics, logos, and software, is the property of Cell Tech BD or its content suppliers and is protected by intellectual property laws.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Limitation of Liability</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        Cell Tech BD shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services or products purchased through our platform.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Contact</h2>
-                    <p className="text-gray-600 leading-relaxed">
-                        If you have any questions about these Terms & Conditions, please contact us at support@Cell Tech BD.com or visit our Contact Us page.
-                    </p>
-                </section>
+                    <div className="mt-10 p-5 bg-gray-50 rounded-xl border border-gray-100">
+                        <p className="text-sm text-gray-600">
+                            Questions? Reach us at{' '}
+                            <a href={`mailto:${SITE_INFO.email}`} className="text-brand-purple font-semibold hover:underline">{SITE_INFO.email}</a>{' '}
+                            or call{' '}
+                            <a href={`tel:${SITE_INFO.phoneDial}`} className="text-brand-purple font-semibold hover:underline">{SITE_INFO.callDisplay}</a>.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

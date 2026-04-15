@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX, FiMic, FiChevronRight, FiGrid, FiChevronDown, FiHeart, FiGift, FiMapPin } from 'react-icons/fi';
+import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiX, FiMic, FiChevronRight, FiGrid, FiChevronDown, FiHeart, FiGift, FiMapPin, FiTruck } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { searchProducts } from '../../lib/api';
@@ -383,49 +383,111 @@ export default function Header({ categories = [] }) {
       {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[60] md:hidden transition-opacity" onClick={closeSidebar} />}
 
       {/* ─── Mobile Sidebar Drawer ─── */}
-      <div className={`fixed inset-y-0 left-0 w-[280px] bg-white z-[70] transform transition-transform duration-300 ease-in-out flex flex-col md:hidden shadow-2xl ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="bg-white p-4 flex justify-between items-center border-b border-gray-100 shadow-sm">
-          <Link href="/" onClick={closeSidebar} className="flex items-center flex-shrink-0" aria-label="Home">
-            <Image src="/CTBD Text.png" alt="Cell Tech BD" width={150} height={36} className="h-8 w-auto object-contain" unoptimized />
-          </Link>
-          <button onClick={closeSidebar} className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><FiX size={24} /></button>
+      <div className={`fixed inset-y-0 left-0 w-[300px] bg-gray-50 z-[70] transform transition-transform duration-300 ease-in-out flex flex-col md:hidden shadow-[20px_0_40px_rgba(0,0,0,0.15)] rounded-r-[2rem] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        
+        {/* Top Header & Header Profile Block */}
+        <div className="bg-[#2D2D2D] text-white rounded-tr-[2rem] pt-6 pb-6 px-6 relative overflow-hidden flex-shrink-0 shadow-lg">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
+          
+          <div className="flex justify-between items-center mb-6 relative z-10">
+            <Link href="/" onClick={closeSidebar} className="bg-white rounded-full px-3.5 py-1.5 flex items-center shadow-md">
+              <Image src="/CTBD Text.png" alt="Cell Tech BD" width={100} height={24} className="h-5 w-auto object-contain" unoptimized />
+            </Link>
+            <button onClick={closeSidebar} className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm">
+              <FiX size={18} />
+            </button>
+          </div>
+
+          <button onClick={() => { closeSidebar(); handleUserClick(); }} className="relative z-10 flex items-center gap-4 w-full p-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all text-left group">
+            {user?.image ? (
+              <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-brand-primary"><Image src={user.image} alt="Profile" width={44} height={44} className="w-full h-full object-cover" unoptimized /></div>
+            ) : user ? (
+              <div className="w-11 h-11 rounded-full bg-brand-primary flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-brand-primary/30">{(user.first_name || user.name || 'U').charAt(0).toUpperCase()}</div>
+            ) : (
+              <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center"><FiUser size={20} className="text-white" /></div>
+            )}
+            <div className="flex flex-col flex-1 min-w-0">
+              <span className="text-[15px] font-bold text-white truncate group-hover:text-brand-primary transition-colors">{user ? (user.first_name || user.name || 'User') : 'Login / Sign Up'}</span>
+              <span className="text-[11px] text-white/70 truncate">{user ? 'View your profile' : 'Access your account'}</span>
+            </div>
+            <FiChevronRight size={18} className="text-white/50 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+          </button>
         </div>
 
-        <button onClick={() => { closeSidebar(); handleUserClick(); }} className="flex items-center gap-3 w-full px-5 py-3.5 border-b border-gray-100 bg-gray-50/50 text-gray-700 hover:text-brand-primary hover:bg-green-50/30 transition-colors">
-          {user?.image ? (
-            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-brand-primary/40"><Image src={user.image} alt="Profile" width={32} height={32} className="w-full h-full object-cover" unoptimized /></div>
-          ) : user ? (
-            <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center text-sm font-bold text-brand-primary ring-2 ring-brand-primary/30">{(user.first_name || user.name || 'U').charAt(0).toUpperCase()}</div>
-          ) : (
-            <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center"><FiUser size={18} className="text-brand-primary" /></div>
-          )}
-          <div className="flex flex-col items-start">
-            <span className="text-sm font-semibold">{user ? (user.first_name || user.name || 'User') : 'Login / Sign Up'}</span>
-            <span className="text-[10px] text-gray-400">{user ? 'View your profile' : 'Access your account'}</span>
+        {/* Content Body */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-7 no-scrollbar pb-24">
+          
+          {/* Categories Grid */}
+          <div>
+            <div className="flex items-center gap-2 mb-3 px-1">
+              <div className="w-6 h-6 rounded-full bg-brand-primary/10 flex items-center justify-center"><FiGrid size={12} className="text-brand-primary" /></div>
+              <h3 className="text-[11px] font-black tracking-widest text-gray-800 uppercase">Shop by Category</h3>
+            </div>
+            
+            {displayCategories.length > 0 ? (
+              <div className="grid grid-cols-4 gap-1.5">
+                {displayCategories.map((cat, idx) => (
+                  <Link key={cat.id || idx} href={`/category/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`} onClick={closeSidebar}
+                    className="flex flex-col items-center justify-center gap-1 p-1.5 bg-white border border-gray-100 rounded-xl shadow-[0_1px_6px_rgba(0,0,0,0.03)] hover:border-brand-primary/40 hover:shadow-md hover:shadow-brand-primary/5 transition-all duration-300 group">
+                    {cat.image_url ? (
+                      <div className="w-8 h-8 relative flex items-center justify-center bg-gray-50 rounded-lg group-hover:scale-105 transition-transform duration-300 p-0.5">
+                        <Image src={cat.image_url} alt={cat.name} fill className="object-contain mix-blend-multiply" unoptimized />
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-brand-primary/10 group-hover:scale-105 transition-all duration-300">
+                        <FiGrid size={14} className="text-gray-300 group-hover:text-brand-primary transition-colors" />
+                      </div>
+                    )}
+                    <span className="text-[8.5px] font-bold text-gray-700 text-center leading-tight line-clamp-2 w-full pt-0.5 group-hover:text-brand-primary transition-colors break-words">{cat.name}</span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 text-center text-sm text-gray-500 bg-white border border-gray-100 rounded-2xl shadow-sm">No categories available.</div>
+            )}
           </div>
-          <FiChevronRight size={16} className="text-gray-300 ml-auto" />
-        </button>
 
-        <div className="flex-1 overflow-y-auto py-2 no-scrollbar">
-          <div className="px-5 py-3 bg-gray-50 text-[10px] font-extrabold text-brand-primary uppercase tracking-widest flex items-center gap-2"><FiGrid size={12} /> Categories</div>
-          {displayCategories.length > 0 ? displayCategories.map((cat, idx) => (
-            <Link key={cat.id || idx} href={`/category/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`} onClick={closeSidebar}
-              className="flex items-center gap-3 px-5 py-2.5 text-sm text-gray-700 font-medium border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors">
-              {cat.image_url ? <Image src={cat.image_url} alt={cat.name} width={32} height={32} className="w-8 h-8 rounded-lg object-cover bg-gray-100 flex-shrink-0" unoptimized /> : <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center flex-shrink-0"><FiGrid size={14} className="text-brand-primary/50" /></div>}
-              <span className="flex-1">{cat.name}</span>
-              <FiChevronRight size={14} className="text-gray-300" />
-            </Link>
-          )) : <div className="px-5 py-4 text-sm text-gray-500 border-b border-gray-50">No categories available.</div>}
+          {/* Navigation Menu */}
+          <div>
+            <div className="flex items-center gap-2 mb-3 px-1">
+              <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center"><FiMenu size={12} className="text-gray-600" /></div>
+              <h3 className="text-[11px] font-black tracking-widest text-gray-800 uppercase">Quick Menu</h3>
+            </div>
+            
+            <div className="flex flex-col gap-2.5">
+              <Link href="/" onClick={closeSidebar} className="flex items-center justify-between px-4 py-3.5 bg-white border border-gray-100 rounded-2xl text-[13px] font-bold text-gray-700 hover:border-brand-primary/40 hover:shadow-[0_4px_12px_rgba(57,178,74,0.08)] transition-all group">
+                <span>Home</span><FiChevronRight size={16} className="text-gray-400 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+              </Link>
+              <Link href="/about" onClick={closeSidebar} className="flex items-center justify-between px-4 py-3.5 bg-white border border-gray-100 rounded-2xl text-[13px] font-bold text-gray-700 hover:border-brand-primary/40 hover:shadow-[0_4px_12px_rgba(57,178,74,0.08)] transition-all group">
+                <span>About Us</span><FiChevronRight size={16} className="text-gray-400 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+              </Link>
+              <Link href="/blogs" onClick={closeSidebar} className="flex items-center justify-between px-4 py-3.5 bg-white border border-gray-100 rounded-2xl text-[13px] font-bold text-gray-700 hover:border-brand-primary/40 hover:shadow-[0_4px_12px_rgba(57,178,74,0.08)] transition-all group">
+                <span>Blogs</span><FiChevronRight size={16} className="text-gray-400 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+              </Link>
+              
+              {/* Highlighted Blocks */}
+              <div className="grid grid-cols-2 gap-2 mt-1">
+                <Link href="/contact" onClick={closeSidebar} className="flex flex-col items-center justify-center py-4 bg-white border border-gray-100 rounded-2xl hover:border-brand-primary/40 hover:bg-brand-primary/5 shadow-sm hover:shadow-md transition-all text-center group">
+                  <FiMapPin size={20} className="text-gray-400 mb-2 group-hover:text-brand-primary transition-colors" />
+                  <span className="text-[11px] font-bold text-gray-700 group-hover:text-brand-primary transition-colors">Contact Us</span>
+                </Link>
+                <Link href="/track-order" onClick={closeSidebar} className="flex flex-col items-center justify-center py-4 bg-brand-primary/5 border border-brand-primary/20 rounded-2xl hover:bg-brand-primary hover:border-brand-primary shadow-sm hover:shadow-lg hover:shadow-brand-primary/20 transition-all text-center group">
+                  <FiTruck size={20} className="text-brand-primary mb-2 group-hover:text-white transition-colors" />
+                  <span className="text-[11px] font-bold text-brand-primary group-hover:text-white transition-colors">Track Order</span>
+                </Link>
+              </div>
+            </div>
+          </div>
 
-          <div className="px-5 py-3 bg-gray-50 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mt-2">Menu</div>
-          <Link href="/" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Home</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/about" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>About Us</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/blogs" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Blogs</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/contact" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Contact</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/warranty" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Warranty Policy</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/refund" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Refund Policy</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/terms" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 text-gray-700 font-semibold border-b border-gray-50 hover:text-brand-primary hover:bg-green-50/30 transition-colors"><span>Terms & Conditions</span><FiChevronRight size={16} className="text-gray-300" /></Link>
-          <Link href="/track-order" onClick={closeSidebar} className="flex items-center justify-between px-5 py-3.5 font-semibold border-b border-gray-50 text-brand-primary bg-green-50/50 hover:bg-green-50 transition-colors"><span>Track Order</span><FiChevronRight size={16} className="text-brand-primary" /></Link>
+          {/* Legal / Policies */}
+          <div className="pt-2">
+             <div className="flex flex-wrap gap-2 justify-center">
+                <Link href="/warranty" onClick={closeSidebar} className="text-[10px] font-bold text-gray-400 hover:text-brand-primary px-3 py-1.5 bg-white border border-gray-200 rounded-full hover:border-brand-primary/30 transition-colors">Warranty</Link>
+                <Link href="/refund" onClick={closeSidebar} className="text-[10px] font-bold text-gray-400 hover:text-brand-primary px-3 py-1.5 bg-white border border-gray-200 rounded-full hover:border-brand-primary/30 transition-colors">Refund</Link>
+                <Link href="/terms" onClick={closeSidebar} className="text-[10px] font-bold text-gray-400 hover:text-brand-primary px-3 py-1.5 bg-white border border-gray-200 rounded-full hover:border-brand-primary/30 transition-colors">Terms</Link>
+             </div>
+          </div>
+
         </div>
       </div>
     </>

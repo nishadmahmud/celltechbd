@@ -257,6 +257,107 @@ export default function ProductInfo({ product, onVariantImageChange, onPricingCh
         }
     };
 
+    const renderVariantSelectors = (displayClass) => {
+        if (!hasVariants) return null;
+        return (
+            <div className={`bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm space-y-4 md:space-y-5 ${displayClass}`}>
+                {/* Variant Summary */}
+                <div className="flex flex-col gap-1 text-[13px] mb-2 pb-4 border-b border-gray-100">
+                    {(selectedStorage || selectedColor || selectedRegion) && (
+                        <p>
+                            <span className="font-semibold text-gray-400">Variant: </span>
+                            <span className="font-bold text-brand-purple">{[selectedStorage, selectedColor, selectedRegion].filter(Boolean).join(' / ')}</span>
+                        </p>
+                    )}
+                    {product.category?.name && (
+                        <p>
+                            <span className="font-semibold text-gray-400">Brand: </span>
+                            <span className="font-bold text-gray-800">{product.category.name}</span>
+                        </p>
+                    )}
+                </div>
+
+                {allColors.length > 0 && (
+                    <div>
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">
+                            Color: <span className="font-medium text-brand-purple">{selectedColor || ''}</span>
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                            {allColors.map((color) => {
+                                const isSelected = selectedColor === color.name;
+                                const isWhite = color.hex?.toLowerCase() === '#ffffff' || color.hex?.toLowerCase() === '#fff';
+                                return (
+                                    <button
+                                        key={color.name}
+                                        onClick={() => setSelectedColor(color.name)}
+                                        className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple bg-brand-purple/5 shadow-md shadow-brand-purple/10' : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'}`}
+                                        title={color.name}
+                                    >
+                                        <span
+                                            className={`w-4 h-4 rounded-full shadow-inner ${isWhite ? 'border border-gray-300' : ''}`}
+                                            style={{ backgroundColor: color.hex }}
+                                        />
+                                        <span className={`text-xs font-medium ${isSelected ? 'text-brand-purple' : 'text-gray-600'}`}>
+                                            {color.name}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {allStorages.length > 0 && (
+                    <div>
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">
+                            Storage: <span className="font-medium text-brand-purple">{selectedStorage || ''}</span>
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                            {allStorages.map((size) => {
+                                const isAvailable = availableStorages.includes(size);
+                                const isSelected = selectedStorage === size;
+                                return (
+                                    <button
+                                        key={size}
+                                        onClick={() => isAvailable && setSelectedStorage(size)}
+                                        disabled={!isAvailable}
+                                        className={`cursor-pointer px-3.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple bg-brand-purple text-white shadow-md shadow-brand-purple/20' : isAvailable ? 'border-gray-200 text-gray-600 hover:border-brand-purple/50 hover:shadow-sm' : 'border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50 line-through'}`}
+                                    >
+                                        {size}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {allRegions.length > 0 && (
+                    <div>
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">
+                            Region: <span className="font-medium text-brand-purple">{selectedRegion || ''}</span>
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                            {allRegions.map((region) => {
+                                const isAvailable = availableRegions.includes(region);
+                                const isSelected = selectedRegion === region;
+                                return (
+                                    <button
+                                        key={region}
+                                        onClick={() => isAvailable && setSelectedRegion(region)}
+                                        disabled={!isAvailable}
+                                        className={`cursor-pointer px-3.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple text-brand-purple bg-brand-purple/5 shadow-md shadow-brand-purple/10' : isAvailable ? 'border-gray-200 text-gray-600 hover:border-brand-purple/50 hover:shadow-sm' : 'border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50 line-through'}`}
+                                    >
+                                        {region}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
         <>
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)] gap-6 lg:gap-8 items-start relative">
@@ -294,6 +395,9 @@ export default function ProductInfo({ product, onVariantImageChange, onPricingCh
                         <p className="text-[11px] text-gray-400 font-medium">Price includes VAT</p>
                     </div>
                 </div>
+
+                {/* Mobile Variant Selectors */}
+                {renderVariantSelectors('lg:hidden')}
 
                 {/* Pricing Cards */}
                 <div className="grid grid-cols-2 gap-2.5">
@@ -383,104 +487,9 @@ export default function ProductInfo({ product, onVariantImageChange, onPricingCh
                     </button>
                 </div>
 
-                {/* Variant Summary */}
-                <div className="flex flex-col gap-1 text-[13px]">
-                    {(selectedStorage || selectedColor || selectedRegion) && (
-                        <p>
-                            <span className="font-semibold text-gray-400">Variant: </span>
-                            <span className="font-bold text-brand-purple">{[selectedStorage, selectedColor, selectedRegion].filter(Boolean).join(' / ')}</span>
-                        </p>
-                    )}
-                    {product.category?.name && (
-                        <p>
-                            <span className="font-semibold text-gray-400">Brand: </span>
-                            <span className="font-bold text-gray-800">{product.category.name}</span>
-                        </p>
-                    )}
-                </div>
-
                 {/* Variant Selectors */}
-                {hasVariants && (
-                    <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-5">
-                        {allColors.length > 0 && (
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-3">
-                                    Color: <span className="font-medium text-brand-purple">{selectedColor || ''}</span>
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {allColors.map((color) => {
-                                        const isSelected = selectedColor === color.name;
-                                        const isWhite = color.hex?.toLowerCase() === '#ffffff' || color.hex?.toLowerCase() === '#fff';
-                                        return (
-                                            <button
-                                                key={color.name}
-                                                onClick={() => setSelectedColor(color.name)}
-                                                className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple bg-brand-purple/5 shadow-md shadow-brand-purple/10' : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'}`}
-                                                title={color.name}
-                                            >
-                                                <span
-                                                    className={`w-4 h-4 rounded-full shadow-inner ${isWhite ? 'border border-gray-300' : ''}`}
-                                                    style={{ backgroundColor: color.hex }}
-                                                />
-                                                <span className={`text-xs font-medium ${isSelected ? 'text-brand-purple' : 'text-gray-600'}`}>
-                                                    {color.name}
-                                                </span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        {allStorages.length > 0 && (
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-3">
-                                    Storage: <span className="font-medium text-brand-purple">{selectedStorage || ''}</span>
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {allStorages.map((size) => {
-                                        const isAvailable = availableStorages.includes(size);
-                                        const isSelected = selectedStorage === size;
-                                        return (
-                                            <button
-                                                key={size}
-                                                onClick={() => isAvailable && setSelectedStorage(size)}
-                                                disabled={!isAvailable}
-                                                className={`cursor-pointer px-3.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple bg-brand-purple text-white shadow-md shadow-brand-purple/20' : isAvailable ? 'border-gray-200 text-gray-600 hover:border-brand-purple/50 hover:shadow-sm' : 'border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50 line-through'}`}
-                                            >
-                                                {size}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        {allRegions.length > 0 && (
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-3">
-                                    Region: <span className="font-medium text-brand-purple">{selectedRegion || ''}</span>
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {allRegions.map((region) => {
-                                        const isAvailable = availableRegions.includes(region);
-                                        const isSelected = selectedRegion === region;
-                                        return (
-                                            <button
-                                                key={region}
-                                                onClick={() => isAvailable && setSelectedRegion(region)}
-                                                disabled={!isAvailable}
-                                                className={`cursor-pointer px-3.5 py-2 rounded-xl text-xs font-semibold border-2 transition-all duration-200 ${isSelected ? 'border-brand-purple text-brand-purple bg-brand-purple/5 shadow-md shadow-brand-purple/10' : isAvailable ? 'border-gray-200 text-gray-600 hover:border-brand-purple/50 hover:shadow-sm' : 'border-gray-100 text-gray-300 cursor-not-allowed bg-gray-50 line-through'}`}
-                                            >
-                                                {region}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
+                {/* Desktop Variant Selectors */}
+                {renderVariantSelectors('hidden lg:block')}
 
                 {/* Sidebar */}
                 {sidebarComponent && (
