@@ -22,7 +22,7 @@ export default function Hero({ slides = [] }) {
             <div className="max-w-7xl mx-auto">
 
                 {/* Main Slider — Full Width, Taller, Cool Design */}
-                <div className="w-full relative overflow-hidden rounded-2xl h-[220px] sm:h-[340px] md:h-[480px] bg-gray-50 group border border-gray-100 shadow-sm">
+                <div className="w-full relative overflow-hidden rounded-xl h-[220px] sm:h-[340px] md:h-[480px] bg-gray-50 group border border-gray-100 shadow-sm">
                     {displaySlides.length > 0 ? displaySlides.map((slide, idx) => (
                         <div
                             key={slide.id || idx}

@@ -10,6 +10,8 @@ import BrandProductSection from "../components/BrandProductSection/BrandProductS
 import FAQ from "../components/FAQ/FAQ";
 import BlogTips from "../components/BlogTips/BlogTips";
 import HomeSEOContent from "../components/HomeSEOContent/HomeSEOContent";
+import WidePromoBanner from "../components/WidePromoBanner/WidePromoBanner";
+import VideoBanners from "../components/VideoBanners/VideoBanners";
 
 import {
   getSlidersFromServer,
@@ -70,14 +72,34 @@ export default async function Home() {
       ? categoriesRes.data
       : [];
 
-  const homeBanners =
+  const allBanners =
     bannersRes?.success && Array.isArray(bannersRes?.banners)
-      ? bannersRes.banners.map((b) => ({
-          id: b.id,
-          image: b.image_path,
-          link: b.button_url || "/",
-        }))
+      ? bannersRes.banners
       : [];
+
+  const homeBanners = allBanners
+    .filter((b) => !b.type || b.type === "image")
+    .map((b) => ({
+      id: b.id,
+      image: b.image_path,
+      link: b.button_url || "/",
+    }));
+
+  const wideBanners = allBanners
+    .filter((b) => b.type === "wide-image")
+    .map((b) => ({
+      id: b.id,
+      image: b.image_path,
+      link: b.button_url || "/",
+    }));
+
+  const videoBanners = allBanners
+    .filter((b) => b.type === "video")
+    .map((b) => ({
+      id: b.id,
+      videoUrl: b.image_path,
+      link: b.button_url || "/",
+    }));
 
   const sliderData = slidersRes?.success ? slidersRes?.sliders : null;
   const heroSlides = Array.isArray(sliderData)
@@ -222,12 +244,29 @@ export default async function Home() {
       <ShopCategories categories={categories} />
       <PromoBanners banners={homeBanners} />
       <FlashSale products={flashSaleProducts} />
+
+      {videoBanners[0] && <VideoBanners banner={videoBanners[0]} />}
+      
       <NewArrivals products={newArrivals} />
+      
+      {/* Scattered Wide Banners */}
+      {wideBanners[0] && <WidePromoBanner banner={wideBanners[0]} />}
+      
       <FeaturedProducts products={featuredProducts} />
+      
+      {videoBanners[1] && <VideoBanners banner={videoBanners[1]} />}
+      {wideBanners[1] && <WidePromoBanner banner={wideBanners[1]} />}
+      
       <BrandProductSection brands={topBrands} />
       <BestDeals deals={bestDealsCards} />
+
+      {wideBanners[2] && <WidePromoBanner banner={wideBanners[2]} />}
+      
       <BlogTips posts={blogPosts} />
       <Testimonials />
+
+      {videoBanners[2] && <VideoBanners banner={videoBanners[2]} />}
+
       <FAQ />
       <HomeSEOContent />
     </>

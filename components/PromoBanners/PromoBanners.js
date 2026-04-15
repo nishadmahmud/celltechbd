@@ -14,7 +14,7 @@ export default function PromoBanners({ banners = [] }) {
                         <Link
                             href={banner.link || "/"}
                             key={banner.id || idx}
-                            className="relative flex-none w-[75vw] sm:w-[45vw] md:w-full overflow-hidden rounded-2xl bg-gray-50 group block h-[130px] sm:h-[160px] md:h-[200px] border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-400 snap-center"
+                            className="relative flex-none w-[75vw] sm:w-[45vw] md:w-full overflow-hidden rounded-xl bg-gray-50 group block h-[130px] sm:h-[160px] md:h-[200px] border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-400 snap-center"
                         >
                             <Image
                                 src={banner.image || banner.image_path || banner.image_url || "/no-image.svg"}
