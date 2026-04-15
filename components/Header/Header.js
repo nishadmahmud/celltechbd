@@ -84,27 +84,29 @@ export default function Header({ categories = [] }) {
       <header className="w-full sticky top-0 z-50 transition-all duration-300">
 
         {/* ─── MOBILE HEADER ─── */}
-        <div className="md:hidden bg-white border-b border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between px-4 py-3 gap-3">
-            <Link href="/" className="flex-shrink-0" aria-label="Home">
-              <Image src="/CTBD Text.png" alt="Cell Tech BD" width={140} height={35} className="h-7 w-auto object-contain" unoptimized priority />
+        <div className="md:hidden pt-3 pb-1 px-3 bg-gray-50/80 backdrop-blur-md">
+          <div className="bg-[#2D2D2D] rounded-full flex items-center justify-between px-2 py-1.5 shadow-xl relative border border-white/10">
+            {/* Logo in White Pill */}
+            <Link href="/" className="bg-white rounded-full px-3 py-1.5 flex items-center shadow-md flex-shrink-0" aria-label="Home">
+              <Image src="/CTBD Text.png" alt="Cell Tech BD" width={90} height={22} className="h-4 sm:h-5 w-auto object-contain" unoptimized priority />
             </Link>
 
             {/* Mobile Search Trigger */}
             <div 
               onClick={openSearchModal} 
-              className="flex-grow flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 mx-1 cursor-pointer"
+              className="flex-grow flex items-center bg-white/10 hover:bg-white/15 border border-white/5 rounded-full px-2.5 py-1.5 mx-2 cursor-pointer transition-colors"
             >
-              <FiSearch className="text-gray-400 mr-2 flex-shrink-0 w-4 h-4" />
-              <span className="text-gray-400 text-base">Search...</span>
+              <FiSearch className="text-gray-300 mr-2 flex-shrink-0 w-3.5 h-3.5" />
+              <span className="text-gray-300 text-xs sm:text-[13px] whitespace-nowrap">Search...</span>
             </div>
 
-            <div className="flex items-center gap-1.5">
-              <Link href="/track-order" className="text-gray-700 p-1" aria-label="Track Order">
-                <FiMapPin className="w-5 h-5" />
+            {/* Icons */}
+            <div className="flex items-center gap-0.5 flex-shrink-0 mr-1">
+              <Link href="/track-order" className="text-gray-300 hover:text-brand-primary p-1.5 rounded-full hover:bg-white/5 transition-all" aria-label="Track Order">
+                <FiMapPin size={16} />
               </Link>
-              <button onClick={() => setIsSidebarOpen(true)} className="text-gray-800 p-1 flex-shrink-0" aria-label="Menu">
-                <FiMenu className="w-6 h-6" />
+              <button onClick={() => setIsSidebarOpen(true)} className="text-gray-300 hover:text-brand-primary p-1.5 rounded-full hover:bg-white/5 transition-all" aria-label="Menu">
+                <FiMenu size={18} />
               </button>
             </div>
           </div>

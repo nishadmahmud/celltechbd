@@ -5,8 +5,9 @@ import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getCategoriesFromServer, getCategoryWiseProducts, getProductsBySubcategory } from '../../../lib/api';
-import CategorySidebar from '../../../components/Category/CategorySidebar';
+import CategoryTopFilters from '../../../components/Category/CategoryTopFilters';
 import ProductGrid from '../../../components/Category/ProductGrid';
+import { FiCheckCircle } from 'react-icons/fi';
 
 function mapProduct(p) {
     const originalPrice = Number(p.retails_price || 0);
@@ -49,8 +50,6 @@ export default function CategoryPage() {
     // Read the requested page exclusively from URL parameters.
     const urlPage = Math.max(1, parseInt(searchParams?.get('page') || '1', 10));
 
-    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-
     const [categoryId, setCategoryId] = useState(rawSlug);
     const [categoryName, setCategoryName] = useState(() =>
         decodeURIComponent(rawSlug)
@@ -63,6 +62,7 @@ export default function CategoryPage() {
     const [filterOptions, setFilterOptions] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [bannerImage, setBannerImage] = useState("https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=2000&auto=format&fit=crop");
+    const [categoryImage, setCategoryImage] = useState("/no-image.svg");
     const [activeSubcategory, setActiveSubcategory] = useState(null);
 
     // Filter State
@@ -100,11 +100,15 @@ export default function CategoryPage() {
                             setCategoryId(resolvedCatId);
                             if (found.name) setCategoryName(found.name);
 
-                            // Use banner from API with fallbacks
-                            const apiBanner = found.banner || found.banner_image || found.image_path || found.image_url;
-                            if (apiBanner) {
-                                setBannerImage(apiBanner);
-                            }
+                            const cBanner = found.banner || found.banner_image || '';
+                            const cImg = found.image_path || found.image_url || '';
+                            
+                            if (cBanner) setBannerImage(cBanner);
+                            if (cImg) setCategoryImage(cImg);
+                            
+                            // fallbacks if one is completely missing
+                            if (!cBanner && cImg) setBannerImage(cImg);
+                            if (!cImg && cBanner) setCategoryImage(cBanner);
                         }
 
                         if ((requestedSubcategorySlug || requestedSubcategoryId) && Array.isArray(found.sub_category)) {
@@ -322,11 +326,11 @@ export default function CategoryPage() {
     }, [filteredProducts, validCurrentPage, itemsPerPage]);
 
     return (
-        <div className="bg-gray-50 min-h-screen py-8 md:py-12">
-            <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="bg-white min-h-screen pt-4 pb-8 md:py-12 w-full">
+            <div className="max-w-[1400px] mx-auto px-4 md:px-6">
 
                 {/* Top Banner Image */}
-                <div className="w-full relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8" style={{ aspectRatio: '21/5' }}>
+                <div className="w-full relative rounded-xl md:rounded-3xl overflow-hidden mb-4 md:mb-8" style={{ aspectRatio: '21/5' }}>
                     <Image
                         src={bannerImage}
                         alt={`${categoryName} Banner`}
@@ -334,39 +338,50 @@ export default function CategoryPage() {
                         unoptimized
                         className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900/60 to-transparent flex items-center p-8 md:p-16">
-                        <div className="text-white">
-                            <h1 className="text-3xl md:text-6xl font-black mb-2 tracking-tight capitalize">{displayCategoryName}</h1>
-                            <p className="text-lg md:text-2xl font-medium text-white/90">The latest : Have a look at a glance</p>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Breadcrumbs */}
-                <div className="text-[12px] md:text-sm text-gray-500 mb-6 md:mb-10 flex items-center gap-2 font-medium">
-                    <Link href="/" className="hover:text-brand-purple transition-colors">Home</Link>
+                <div className="text-[10px] md:text-sm text-gray-500 mb-4 md:mb-6 flex items-center gap-1.5 md:gap-2 font-medium">
+                    <Link href="/" className="hover:text-brand-primary transition-colors">Home</Link>
                     <span>/</span>
-                    <span className="hover:text-brand-purple transition-colors cursor-pointer">Categories</span>
+                    <span className="hover:text-brand-primary transition-colors cursor-pointer">Categories</span>
                     <span>/</span>
-                    <span className="text-brand-purple font-bold capitalize">{categoryName}</span>
-                    {activeSubcategory?.name ? (
-                        <>
-                            <span>/</span>
-                            <span className="text-brand-purple font-bold capitalize">{activeSubcategory.name}</span>
-                        </>
-                    ) : null}
+                    <span className="text-gray-900 font-bold capitalize">{displayCategoryName}</span>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-0 lg:gap-8 pt-2 lg:pt-0">
+                {/* Category Header Area (Avatar + Title + Verified Badge + Filters) */}
+                <div className="flex flex-col md:flex-row md:items-end gap-3 md:gap-6 mb-5 md:mb-10">
+                    <div className="flex items-center gap-3 md:gap-6 flex-shrink-0">
+                        {/* Circular Avatar */}
+                        <div className="w-14 h-14 md:w-24 md:h-24 rounded-full border border-gray-100 overflow-hidden relative shadow-sm bg-white flex-shrink-0">
+                            <Image
+                                src={categoryImage}
+                                alt={`${categoryName} Icon`}
+                                fill
+                                unoptimized
+                                className="object-contain p-1 md:p-3"
+                            />
+                        </div>
+                        {/* Title & Badge */}
+                        <div className="flex flex-col gap-0.5 md:gap-1">
+                            <h1 className="text-xl md:text-3xl font-extrabold text-gray-900 flex items-center gap-1.5 md:gap-2">
+                                {displayCategoryName}
+                                <FiCheckCircle className="text-blue-500 fill-blue-100 shrink-0 w-4 h-4 md:w-6 md:h-6" />
+                            </h1>
+                            <p className="text-[10px] md:text-sm text-gray-500 font-medium">
+                                Showing {paginatedProductsForScreen.length} items
+                            </p>
+                        </div>
+                    </div>
 
-                    {/* Sidebar (Filters) - Left Side on Desktop */}
-                    <aside className="lg:w-1/4 order-1">
-                        <CategorySidebar
-                            isOpen={isMobileFilterOpen}
-                            onClose={() => setIsMobileFilterOpen(false)}
+                    {/* Top Filters (Horizontally Scrolling Pills) */}
+                    <div className="flex-1 min-w-0 md:pb-1 flex justify-start md:justify-end items-end w-full">
+                        <CategoryTopFilters
                             derivedFilters={derivedFilters}
                             globalMinPrice={derivedFilters.globalMinPrice}
                             globalMaxPrice={derivedFilters.globalMaxPrice}
+                            selectedBrands={selectedBrands}
+                            setSelectedBrands={setSelectedBrands}
                             selectedPrice={selectedPrice}
                             setSelectedPrice={setSelectedPrice}
                             selectedStorage={selectedStorage}
@@ -378,10 +393,12 @@ export default function CategoryPage() {
                             selectedAvailability={selectedAvailability}
                             setSelectedAvailability={setSelectedAvailability}
                         />
-                    </aside>
+                    </div>
+                </div>
 
-                    {/* Main Content (Product Grid) - Right Side on Desktop */}
-                    <main className="lg:w-3/4 order-2">
+                <div className="w-full">
+                    {/* Main Content (Product Grid) - Full Width */}
+                    <div>
                         {isLoading ? (
                             <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border border-gray-200 border-dashed">
                                 <div className="w-8 h-8 border-4 border-brand-purple/20 border-t-brand-purple rounded-full animate-spin mb-4"></div>
@@ -390,11 +407,7 @@ export default function CategoryPage() {
                         ) : paginatedProductsForScreen.length > 0 ? (
                             <ProductGrid
                                 products={paginatedProductsForScreen}
-                                onOpenFilter={() => setIsMobileFilterOpen(true)}
                                 categoryName={displayCategoryName}
-                                brandsList={derivedFilters.brandsList}
-                                activeBrand={selectedBrands[0] || 'All'}
-                                onSelectBrand={(b) => setSelectedBrands([b])}
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border border-gray-200 border-dashed">
@@ -432,8 +445,7 @@ export default function CategoryPage() {
                                 })}
                             </div>
                         )}
-                    </main>
-
+                    </div>
                 </div>
             </div>
         </div>

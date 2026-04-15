@@ -80,9 +80,9 @@ export default function ProductCard({ product, variant = 'default' }) {
 
                 {/* Action Row */}
                 <div className="flex items-center gap-2 mt-auto">
-                    <div className={`${isCompact ? 'h-[32px] md:h-[36px]' : 'h-[36px] md:h-[40px]'} flex-1 rounded-full border-2 border-brand-primary flex items-center justify-center gap-1.5 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300`}>
-                        <span className={`text-brand-primary group-hover:text-white font-bold ${isCompact ? 'text-[11px] md:text-[12px]' : 'text-[12px] md:text-[13px]'}`}>Add To Cart</span>
-                        <FiChevronRight className="text-brand-primary group-hover:text-white w-3 h-3 md:w-3.5 md:h-3.5" />
+                    <div className={`${isCompact ? 'h-[36px]' : 'h-[36px] md:h-[40px]'} flex-1 rounded-full border-2 border-brand-primary flex items-center justify-center gap-1 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 px-1`}>
+                        <span className={`text-brand-primary group-hover:text-white font-bold ${isCompact ? 'text-[10px] sm:text-[11px] md:text-[12px]' : 'text-[11px] sm:text-[12px] md:text-[13px]'} whitespace-nowrap tracking-tight`}>Add To Cart</span>
+                        <FiChevronRight className="text-brand-primary group-hover:text-white w-3 h-3 md:w-3.5 md:h-3.5 flex-shrink-0" />
                     </div>
                     <button
                         className={`${isCompact ? 'w-[32px] h-[32px] md:w-[36px] md:h-[36px]' : 'w-[36px] h-[36px] md:w-[40px] md:h-[40px]'} rounded-full border-2 ${isWishlisted ? 'border-orange-400 bg-orange-400 text-white' : 'border-orange-300 text-orange-400 hover:bg-orange-50'} flex items-center justify-center transition-all duration-300 flex-shrink-0`}

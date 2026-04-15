@@ -21,7 +21,7 @@ export default function MobileBottomNav() {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-2 left-2 right-2 bg-white/80 backdrop-blur-xl border border-brand-purple/20 rounded-2xl z-50 shadow-lg pb-safe">
+        <div className="md:hidden fixed bottom-4 left-4 right-4 bg-[#2D2D2D] shadow-2xl rounded-full z-[90] border border-white/10 pb-safe">
             <div className="flex justify-around items-center px-2 py-2">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
@@ -47,15 +47,15 @@ export default function MobileBottomNav() {
                                     }
                                 }
                             }}
-                            className={`flex flex-col items-center justify-center w-full gap-1.5 transition-colors ${isActive ? 'text-brand-purple' : 'text-brand-purple/50 hover:text-brand-purple'}`}
+                            className={`flex flex-col items-center justify-center w-full gap-1 transition-colors ${isActive ? 'text-brand-primary' : 'text-gray-400 hover:text-white'}`}
                         >
                             <div className="relative">
                                 {isAuthItem && user?.image ? (
-                                    <div className={`w-6 h-6 rounded-full overflow-hidden ring-2 ${isActive ? 'ring-brand-purple' : 'ring-brand-purple/20'}`}>
+                                    <div className={`w-6 h-6 rounded-full overflow-hidden ring-2 ${isActive ? 'ring-brand-primary' : 'ring-gray-600'}`}>
                                         <Image src={user.image} alt="Profile" width={24} height={24} className="w-full h-full object-cover" unoptimized />
                                     </div>
                                 ) : isAuthItem && user ? (
-                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ring-2 ${isActive ? 'bg-brand-purple/20 text-brand-purple ring-brand-purple' : 'bg-brand-purple/5 text-brand-purple/60 ring-brand-purple/20'}`}>
+                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ring-2 ${isActive ? 'bg-brand-primary text-white ring-brand-primary' : 'bg-gray-700 text-gray-300 ring-gray-600'}`}>
                                         {(user.first_name || user.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                 ) : (

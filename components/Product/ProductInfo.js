@@ -9,7 +9,7 @@ import { BANK_EMI_DATA } from '../../lib/bankEmiData';
 
 const EMI_MONTHS = [3, 6, 9, 12, 18, 24, 36];
 
-export default function ProductInfo({ product, onVariantImageChange, onPricingChange, selectedCarePlans = [] }) {
+export default function ProductInfo({ product, onVariantImageChange, onPricingChange, selectedCarePlans = [], galleryComponent, sidebarComponent }) {
     const { addToCart } = useCart();
     const router = useRouter();
     const [quantity, setQuantity] = useState(1);

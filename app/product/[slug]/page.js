@@ -232,32 +232,22 @@ export default function ProductDetailsPage() {
                     </div>
                 ) : (
                     <>
-                        {/* 2-Column Top Layout */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(280px,0.8fr)] gap-6 lg:gap-8 items-start">
-                            {/* Col 1: Gallery */}
-                            <div className="w-full min-w-0 shrink-0 md:sticky md:top-24 self-start">
-                                <ProductGallery images={galleryImages} />
-                            </div>
-
-                            {/* Col 2: Info */}
-                            <div className="w-full min-w-0">
-                                <ProductInfo
-                                    product={productData}
-                                    onVariantImageChange={setVariantImages}
-                                    onPricingChange={setPricingInfo}
-                                    selectedCarePlans={selectedCarePlans}
-                                />
-                            </div>
-
-                            {/* Col 3: Support / EMI / Care cards */}
-                            <div className="w-full min-w-0 xl:sticky xl:top-24 self-start">
-                                <ProductSidebar
-                                    product={productData}
-                                    pricingInfo={pricingInfo}
-                                    selectedCarePlans={selectedCarePlans}
-                                    onSelectedCarePlansChange={setSelectedCarePlans}
-                                />
-                            </div>
+                        <div className="w-full">
+                            <ProductInfo
+                                product={productData}
+                                onVariantImageChange={setVariantImages}
+                                onPricingChange={setPricingInfo}
+                                selectedCarePlans={selectedCarePlans}
+                                galleryComponent={<ProductGallery images={galleryImages} />}
+                                sidebarComponent={
+                                    <ProductSidebar
+                                        product={productData}
+                                        pricingInfo={pricingInfo}
+                                        selectedCarePlans={selectedCarePlans}
+                                        onSelectedCarePlansChange={setSelectedCarePlans}
+                                    />
+                                }
+                            />
                         </div>
 
                         {/* Bottom: Tabs */}
