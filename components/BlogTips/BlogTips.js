@@ -1,10 +1,38 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function BlogTips({ posts = [] }) {
+    const [startIndex, setStartIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const displayPosts = Array.isArray(posts) ? posts : [];
+    const itemsToShow = isMobile ? 1 : 3;
+    const step = 1;
+    const totalItems = displayPosts.length;
+    const dotsCount = Math.max(0, totalItems - itemsToShow + 1);
+
+    useEffect(() => {
+        if (totalItems <= itemsToShow) return;
+        const interval = setInterval(() => {
+            setStartIndex((prev) => {
+                const nextIndex = prev + step;
+                const maxIndex = totalItems - itemsToShow;
+                if (nextIndex > maxIndex) return 0;
+                return nextIndex;
+            });
+        }, 3500);
+        return () => clearInterval(interval);
+    }, [totalItems, itemsToShow, step]);
 
     return (
         <section className="bg-white py-10 md:py-20 border-b border-gray-100">
@@ -21,28 +49,52 @@ export default function BlogTips({ posts = [] }) {
                     </Link>
                 </div>
 
-                <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 md:gap-8 pb-2 md:pb-0 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
-                    {displayPosts.length > 0 ? displayPosts.map((post) => (
-                        <Link href={`/blogs/${post.slug || post.id}`} key={post.id} className="group flex flex-col bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple/20 transition-all duration-300 min-w-[260px] w-[260px] md:w-auto md:min-w-0 flex-shrink-0">
-                            <div className="w-full aspect-[16/10] relative overflow-hidden bg-gray-100">
-                                <Image src={post.image || post.imageUrl || '/no-image.svg'} alt={post.title || post.name} fill unoptimized className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                                <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3">
-                                    <span className="bg-brand-purple text-white text-[9px] md:text-[10px] font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">{post.category}</span>
-                                </div>
+                {displayPosts.length > 0 ? (
+                    <div className="w-full">
+                        <div className="overflow-hidden w-full relative pb-2 pt-1 h-full">
+                            <div 
+                                className="flex transition-transform duration-500 ease-in-out h-full items-stretch"
+                                style={{ transform: `translateX(-${startIndex * (100 / itemsToShow)}%)` }}
+                            >
+                                {displayPosts.map((post) => (
+                                    <div key={post.id} className={`${isMobile ? 'w-full' : 'w-1/3'} flex-none px-2 md:px-4 flex flex-col items-stretch`}>
+                                        <Link href={`/blogs/${post.slug || post.id}`} className="w-full h-full group flex flex-col bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple/20 transition-all duration-300">
+                                            <div className="w-full aspect-[16/10] relative overflow-hidden bg-gray-100">
+                                                <Image src={post.image || post.imageUrl || '/no-image.svg'} alt={post.title || post.name} fill unoptimized className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                                                <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3 z-10">
+                                                    <span className="bg-brand-purple text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">{post.category}</span>
+                                                </div>
+                                            </div>
+                                            <div className="p-4 md:p-6 flex flex-col flex-grow">
+                                                <h3 className="font-bold text-gray-900 text-sm md:text-lg mb-2 leading-snug group-hover:text-brand-purple transition-colors line-clamp-2">{post.title || post.name}</h3>
+                                                <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 flex-grow line-clamp-2">{post.excerpt}</p>
+                                                <span className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider mt-auto">{post.readTime || post.date}</span>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="p-4 md:p-6 flex flex-col flex-grow">
-                                <h3 className="font-bold text-gray-900 text-sm md:text-lg mb-1 md:mb-2 leading-snug group-hover:text-brand-purple transition-colors line-clamp-2">{post.title || post.name}</h3>
-                                <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-2 md:mb-4 flex-grow line-clamp-2">{post.excerpt}</p>
-                                <span className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider">{post.readTime || post.date}</span>
-                            </div>
-                        </Link>
-                    )) : (
-                        <div className="w-full text-center py-10 text-gray-500 text-sm border border-dashed border-gray-200 rounded-xl">
-                            No blog posts available right now.
                         </div>
-                    )}
-                </div>
+
+                        {/* Slider Indicators */}
+                        {dotsCount > 1 && (
+                            <div className="flex justify-center items-center gap-1.5 mt-6 md:mt-8">
+                                {Array.from({ length: dotsCount }).map((_, pageIndex) => (
+                                    <button
+                                        key={pageIndex}
+                                        onClick={() => setStartIndex(pageIndex)}
+                                        className={`h-1.5 transition-all rounded-full ${pageIndex === startIndex ? 'bg-brand-purple w-8' : 'bg-gray-200 hover:bg-gray-300 w-5'}`}
+                                        aria-label={`Go to slide ${pageIndex + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="w-full text-center py-10 text-gray-500 text-sm border border-dashed border-gray-200 rounded-xl">
+                        No blog posts available right now.
+                    </div>
+                )}
             </div>
         </section>
     );

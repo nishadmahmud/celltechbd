@@ -40,7 +40,7 @@ export default function ProductCard({ product, variant = 'default' }) {
 
                 {/* Discount badge */}
                 {product.discount && (
-                    <span className="absolute top-3 right-3 z-10 text-[10px] font-bold text-white bg-brand-red px-2 py-0.5 rounded-md">
+                    <span className="absolute top-3 right-3 z-10 text-[11px] md:text-[13px] font-extrabold text-white bg-brand-red px-2.5 md:px-3 py-1 md:py-1.5 rounded-lg shadow-sm">
                         {product.discount}
                     </span>
                 )}

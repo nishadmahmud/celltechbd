@@ -96,7 +96,7 @@ export default function CategoryTopFilters({
     const { brandsList, storageList, regionList, colorList } = derivedFilters;
 
     return (
-        <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 pb-4 mb-2 lg:-mt-1 relative z-50">
+        <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 pb-4 mb-2 lg:-mt-1 relative z-30">
             
             {/* Reset Button (only shown if filters are active) */}
             {countActiveFilters() > 0 && (
