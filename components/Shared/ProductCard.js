@@ -27,7 +27,7 @@ export default function ProductCard({ product, variant = 'default' }) {
     return (
         <Link
             href={`/product/${slug}`}
-            className="bg-white rounded-2xl flex flex-col text-left hover:-translate-y-1 transition-all duration-400 group overflow-hidden relative block border border-gray-200 hover:border-brand-primary/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+            className="bg-white rounded-2xl flex flex-col text-left hover:-translate-y-1 transition-all duration-400 group overflow-hidden relative block h-full w-full border border-gray-200 hover:border-brand-primary/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
         >
             {/* Image Area */}
             <div className={`w-full ${isCompact ? 'aspect-[16/11] md:aspect-[16/10]' : 'aspect-square'} relative flex items-center justify-center bg-card-bg rounded-t-2xl overflow-hidden`}>
@@ -79,7 +79,7 @@ export default function ProductCard({ product, variant = 'default' }) {
                 </div>
 
                 {/* Action Row */}
-                <div className="flex items-center gap-2 mt-auto">
+                <div className="flex items-center gap-2">
                     <div className={`${isCompact ? 'h-[36px]' : 'h-[36px] md:h-[40px]'} flex-1 rounded-full border-2 border-brand-primary flex items-center justify-center gap-1 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300 px-1`}>
                         <span className={`text-brand-primary group-hover:text-white font-bold ${isCompact ? 'text-[10px] sm:text-[11px] md:text-[12px]' : 'text-[11px] sm:text-[12px] md:text-[13px]'} whitespace-nowrap tracking-tight`}>Add To Cart</span>
                         <FiChevronRight className="text-brand-primary group-hover:text-white w-3 h-3 md:w-3.5 md:h-3.5 flex-shrink-0" />

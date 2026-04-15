@@ -20,7 +20,36 @@ export default function FlashSale({ products = [] }) {
     const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
     const seconds = String(timeLeft % 60).padStart(2, '0');
 
+    const [startIndex, setStartIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const displayProducts = Array.isArray(products) ? products : [];
+    const itemsToShow = isMobile ? 2 : 3;
+    const step = isMobile ? 2 : 1;
+    const totalItems = displayProducts.length;
+    
+    // Calculate how many indicator dots we need depending on the group step size
+    const dotsCount = isMobile ? Math.ceil(totalItems / 2) : Math.max(0, totalItems - itemsToShow + 1);
+
+    useEffect(() => {
+        if (totalItems <= itemsToShow) return;
+        const interval = setInterval(() => {
+            setStartIndex((prev) => {
+                const nextIndex = prev + step;
+                const maxIndex = totalItems - itemsToShow;
+                if (nextIndex > maxIndex) return 0;
+                return nextIndex;
+            });
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [totalItems, itemsToShow, step]);
 
     return (
         <section className="bg-white py-10 md:py-16">
@@ -49,11 +78,11 @@ export default function FlashSale({ products = [] }) {
                 </div>
 
                 {/* Content: Banner Left + Products Right */}
-                <div className="flex flex-col lg:flex-row gap-5 md:gap-6">
+                <div className="flex flex-col lg:flex-row gap-5 md:gap-6 items-stretch">
 
                     {/* Left: Flash Sale Banner */}
                     <div className="w-full lg:w-[35%] flex-shrink-0">
-                        <div className="relative w-full h-[120px] sm:h-[180px] lg:h-full min-h-[150px] md:min-h-[400px] rounded-2xl overflow-hidden bg-brand-primary/5 border border-brand-primary/10 transition-all duration-300">
+                        <div className="relative w-full h-[120px] sm:h-[180px] lg:h-full min-h-[150px] rounded-xl overflow-hidden bg-brand-primary/5 border border-brand-primary/10 transition-all duration-300">
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 md:p-6 z-10">
                                 <FiZap className="text-brand-primary w-8 h-8 md:w-12 md:h-12 mb-2 md:mb-4" />
                                 <h3 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-1 md:mb-2">Flash Sale</h3>
@@ -65,17 +94,45 @@ export default function FlashSale({ products = [] }) {
                         </div>
                     </div>
 
-                    {/* Right: Product Grid */}
-                    <div className="flex-1">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
-                            {displayProducts.length > 0 ? displayProducts.slice(0, 6).map((product) => (
-                                <ProductCard key={product.id} product={product} variant="compact" />
-                            )) : (
-                                <div className="col-span-full py-10 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                    No flash sale products available right now.
+                    {/* Right: Product Slider */}
+                    <div className="flex-1 overflow-hidden flex flex-col justify-between">
+                        {displayProducts.length > 0 ? (
+                            <>
+                                <div className="overflow-hidden w-full relative pb-2 pt-1 h-full">
+                                    <div 
+                                        className="flex transition-transform duration-500 ease-in-out h-full items-stretch"
+                                        style={{ transform: `translateX(-${startIndex * (100 / itemsToShow)}%)` }}
+                                    >
+                                        {displayProducts.map((product) => (
+                                            <div key={product.id} className="w-1/2 md:w-1/3 lg:w-1/3 flex-none px-1.5 md:px-2 flex flex-col items-stretch">
+                                                <ProductCard product={product} />
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            )}
-                        </div>
+
+                                {/* Slider Indicators */}
+                                {dotsCount > 1 && (
+                                    <div className="flex justify-center items-center gap-1.5 mt-4">
+                                        {Array.from({ length: dotsCount }).map((_, pageIndex) => {
+                                            const activeValue = isMobile ? pageIndex * 2 : pageIndex;
+                                            return (
+                                                <button
+                                                    key={pageIndex}
+                                                    onClick={() => setStartIndex(activeValue)}
+                                                    className={`h-1.5 transition-all rounded-full ${activeValue === startIndex ? 'bg-brand-primary w-8' : 'bg-gray-200 hover:bg-gray-300 w-5'}`}
+                                                    aria-label={`Go to slide ${pageIndex + 1}`}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <div className="w-full h-full min-h-[200px] flex items-center justify-center text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                                No flash sale products available right now.
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
