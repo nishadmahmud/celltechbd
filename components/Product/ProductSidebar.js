@@ -91,6 +91,7 @@ export default function ProductSidebar({ product, pricingInfo, selectedCarePlans
                 </div>
             </a>
 
+            {/* Cell Tech Care+ - Commented out for now
             <div className="border border-gray-200 rounded-xl overflow-hidden">
                 <div className="bg-black text-white px-4 py-3 flex items-center gap-2">
                     <FiShield className="text-brand-purple" size={16} />
@@ -127,6 +128,7 @@ export default function ProductSidebar({ product, pricingInfo, selectedCarePlans
                     </p>
                 </div>
             </div>
+            */}
 
             {showDeliveryModal && (
                 <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-[1px] flex items-center justify-center p-4">

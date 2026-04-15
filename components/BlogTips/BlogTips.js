@@ -21,20 +21,20 @@ export default function BlogTips({ posts = [] }) {
                     </Link>
                 </div>
 
-                <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-3 md:gap-8 pb-2 md:pb-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 md:gap-8 pb-2 md:pb-0 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                     <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
                     {displayPosts.length > 0 ? displayPosts.map((post) => (
-                        <Link href={`/blogs/${post.slug || post.id}`} key={post.id} className="group flex flex-col bg-white rounded-xl md:rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple/20 transition-all duration-300 min-w-[220px] md:min-w-0 flex-shrink-0">
-                            <div className="w-full aspect-[16/9] relative overflow-hidden bg-gray-100">
+                        <Link href={`/blogs/${post.slug || post.id}`} key={post.id} className="group flex flex-col bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple/20 transition-all duration-300 min-w-[260px] w-[260px] md:w-auto md:min-w-0 flex-shrink-0">
+                            <div className="w-full aspect-[16/10] relative overflow-hidden bg-gray-100">
                                 <Image src={post.image || post.imageUrl || '/no-image.svg'} alt={post.title || post.name} fill unoptimized className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                                <div className="absolute top-2 left-2 md:top-3 md:left-3">
-                                    <span className="bg-brand-purple text-white text-[8px] md:text-[10px] font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">{post.category}</span>
+                                <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3">
+                                    <span className="bg-brand-purple text-white text-[9px] md:text-[10px] font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">{post.category}</span>
                                 </div>
                             </div>
-                            <div className="p-3 md:p-6 flex flex-col flex-grow">
-                                <h3 className="font-bold text-gray-900 text-xs md:text-lg mb-1 md:mb-2 leading-tight group-hover:text-brand-purple transition-colors line-clamp-2">{post.title || post.name}</h3>
-                                <p className="text-gray-500 text-[10px] md:text-sm leading-relaxed mb-2 md:mb-4 flex-grow line-clamp-2 hidden sm:block">{post.excerpt}</p>
-                                <span className="text-[9px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider">{post.readTime || post.date}</span>
+                            <div className="p-4 md:p-6 flex flex-col flex-grow">
+                                <h3 className="font-bold text-gray-900 text-sm md:text-lg mb-1 md:mb-2 leading-snug group-hover:text-brand-purple transition-colors line-clamp-2">{post.title || post.name}</h3>
+                                <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-2 md:mb-4 flex-grow line-clamp-2">{post.excerpt}</p>
+                                <span className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider">{post.readTime || post.date}</span>
                             </div>
                         </Link>
                     )) : (

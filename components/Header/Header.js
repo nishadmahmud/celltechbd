@@ -84,11 +84,11 @@ export default function Header({ categories = [] }) {
       <header className="w-full sticky top-0 z-50 transition-all duration-300">
 
         {/* ─── MOBILE HEADER ─── */}
-        <div className="md:hidden pt-3 pb-1 px-3 bg-gray-50/80 backdrop-blur-md">
-          <div className="bg-[#2D2D2D] rounded-full flex items-center justify-between px-2 py-1.5 shadow-xl relative border border-white/10">
+        <div className="md:hidden pt-3 pb-2.5 px-3 bg-gray-50/80 backdrop-blur-md">
+          <div className="bg-[#2D2D2D] rounded-full flex items-center justify-between px-2.5 py-2.5 shadow-xl relative border border-white/10">
             {/* Logo in White Pill */}
-            <Link href="/" className="bg-white rounded-full px-3 py-1.5 flex items-center shadow-md flex-shrink-0" aria-label="Home">
-              <Image src="/CTBD Text.png" alt="Cell Tech BD" width={90} height={22} className="h-4 sm:h-5 w-auto object-contain" unoptimized priority />
+            <Link href="/" className="bg-white rounded-full px-3.5 py-2 flex items-center shadow-md flex-shrink-0" aria-label="Home">
+              <Image src="/CTBD Text.png" alt="Cell Tech BD" width={100} height={26} className="h-5 sm:h-6 w-auto object-contain" unoptimized priority />
             </Link>
 
             {/* Mobile Search Trigger */}

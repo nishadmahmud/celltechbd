@@ -62,7 +62,7 @@ export default async function BlogDetailsPage({ params }) {
         </div>
       </div>
 
-      <article className="max-w-5xl mx-auto px-4 md:px-6 pt-10">
+      <article className="max-w-5xl mx-auto px-4 md:px-6 pt-10 overflow-hidden">
         <div className="w-full aspect-[16/9] md:aspect-[16/7] relative overflow-hidden rounded-3xl bg-gray-100 shadow-sm mb-10">
           <Image
             src={post.image}
@@ -73,13 +73,13 @@ export default async function BlogDetailsPage({ params }) {
           />
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 overflow-hidden" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
           <div className="mb-6 text-xl md:text-2xl font-semibold text-gray-800 leading-relaxed">
             {post.excerpt}
           </div>
 
           <div
-            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-brand-purple"
+            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-brand-purple overflow-hidden break-words"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </div>
