@@ -12,6 +12,7 @@ import BlogTips from "../components/BlogTips/BlogTips";
 import HomeSEOContent from "../components/HomeSEOContent/HomeSEOContent";
 import WidePromoBanner from "../components/WidePromoBanner/WidePromoBanner";
 import VideoBanners from "../components/VideoBanners/VideoBanners";
+import CampaignShowcase from "../components/CampaignShowcase/CampaignShowcase";
 
 import {
   getSlidersFromServer,
@@ -254,8 +255,15 @@ export default async function Home() {
       
       <FeaturedProducts products={featuredProducts} />
       
-      {videoBanners[1] && <VideoBanners banner={videoBanners[1]} />}
       {wideBanners[1] && <WidePromoBanner banner={wideBanners[1]} />}
+
+      {/* NEW SECTION: Campaign Showcase */}
+      <CampaignShowcase 
+          title="Top Digital Trends"
+          splitBanners={homeBanners.slice(1, 3)} 
+          products={featuredProducts} 
+          videoBanner={videoBanners[1]}
+      />
       
       <BrandProductSection brands={topBrands} />
       <BestDeals deals={bestDealsCards} />

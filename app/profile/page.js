@@ -31,18 +31,18 @@ const OrderTimeline = ({ currentStatus }) => {
             <div className="hidden sm:block">
                 <div className="relative flex items-center justify-between">
                     <div className="absolute left-0 right-0 top-5 h-1 bg-gray-200 rounded-full" />
-                    <div className="absolute left-0 top-5 h-1 bg-gradient-to-r from-brand-purple to-purple-400 rounded-full transition-all duration-500" style={{ width: `${((Math.min(status, 4) - 1) / 3) * 100}%` }} />
+                    <div className="absolute left-0 top-5 h-1 bg-brand-primary rounded-full transition-all duration-500" style={{ width: `${((Math.min(status, 4) - 1) / 3) * 100}%` }} />
                     {timelineStages.map((stage) => {
                         const isCompleted = status >= stage.id;
                         const isCurrent = status === stage.id;
                         const StageIcon = stage.icon;
                         return (
                             <div key={stage.id} className="relative flex flex-col items-center z-10">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isCompleted ? "bg-gradient-to-br from-brand-purple to-purple-500 text-white shadow-lg" : "bg-white border-2 border-gray-300 text-gray-400"} ${isCurrent ? "ring-4 ring-purple-100 scale-110" : ""}`}>
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isCompleted ? "bg-brand-primary text-white shadow-lg" : "bg-white border-2 border-gray-300 text-gray-400"} ${isCurrent ? "ring-4 ring-brand-primary/20 scale-110" : ""}`}>
                                     {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : <span className="text-sm font-medium">{stage.id}</span>}
                                 </div>
                                 <div className={`mt-3 flex flex-col items-center ${isCompleted ? "text-gray-900" : "text-gray-400"}`}>
-                                    <StageIcon className={`w-5 h-5 mb-1 ${isCompleted ? "text-brand-purple" : ""}`} />
+                                    <StageIcon className={`w-5 h-5 mb-1 ${isCompleted ? "text-brand-primary" : ""}`} />
                                     <span className={`text-xs font-medium text-center max-w-[80px] ${isCurrent ? "font-bold" : ""}`}>{stage.label}</span>
                                 </div>
                             </div>
@@ -59,13 +59,13 @@ const OrderTimeline = ({ currentStatus }) => {
                     return (
                         <div key={stage.id} className="flex items-start gap-3">
                             <div className="flex flex-col items-center">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? "bg-gradient-to-br from-brand-purple to-purple-500 text-white" : "bg-white border-2 border-gray-300 text-gray-400"} ${isCurrent ? "ring-2 ring-purple-100" : ""}`}>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? "bg-brand-primary text-white" : "bg-white border-2 border-gray-300 text-gray-400"} ${isCurrent ? "ring-2 ring-brand-primary/20" : ""}`}>
                                     {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : <span className="text-xs">{stage.id}</span>}
                                 </div>
-                                {!isLast && <div className={`w-0.5 h-6 ${isCompleted ? "bg-brand-purple" : "bg-gray-200"}`} />}
+                                {!isLast && <div className={`w-0.5 h-6 ${isCompleted ? "bg-brand-primary" : "bg-gray-200"}`} />}
                             </div>
                             <div className={`flex items-center gap-2 pt-1 ${isCompleted ? "text-gray-900" : "text-gray-400"}`}>
-                                <StageIcon className={`w-4 h-4 ${isCompleted ? "text-brand-purple" : ""}`} />
+                                <StageIcon className={`w-4 h-4 ${isCompleted ? "text-brand-primary" : ""}`} />
                                 <span className={`text-sm ${isCurrent ? "font-bold" : "font-medium"}`}>{stage.label}</span>
                             </div>
                         </div>
@@ -203,12 +203,12 @@ export default function ProfileDashboard() {
                     {/* Sidebar */}
                     <aside className={`fixed lg:static top-0 left-0 w-72 bg-white z-[70] lg:z-auto transform lg:transform-none transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} lg:block flex-shrink-0 h-screen lg:h-auto`}>
                         <div className="bg-white lg:rounded-2xl shadow-lg lg:sticky lg:top-24 h-full lg:h-auto flex flex-col overflow-hidden">
-                            <div className="lg:hidden flex items-center justify-between p-4 bg-gradient-to-r from-brand-purple to-purple-600 text-white flex-shrink-0">
+                            <div className="lg:hidden flex items-center justify-between p-4 bg-brand-primary text-white flex-shrink-0">
                                 <span className="font-bold">Menu</span>
                                 <button onClick={() => setSidebarOpen(false)} className="p-2 hover:bg-white/10 rounded-lg"><X className="w-5 h-5" /></button>
                             </div>
-                            <div className="p-5 bg-gradient-to-r from-brand-purple to-purple-600 hidden lg:block">
-                                <Link href="/"className="flex items-center"><span className="text-xl font-extrabold text-white">Cell Tech BD<span className="text-brand-purple">+</span></span></Link>
+                            <div className="p-5 bg-brand-primary hidden lg:block">
+                                <Link href="/"className="flex items-center"><span className="text-xl font-extrabold text-white">Cell Tech BD</span></Link>
                             </div>
                             <nav className="p-4 flex-1 overflow-y-auto pb-20 lg:pb-4 bg-gray-50/50">
                                 {(() => {
@@ -221,7 +221,7 @@ export default function ProfileDashboard() {
                                                 {showGroup && <p className="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">{item.group}</p>}
                                                 <button onClick={() => handleNavClick(item.id)}
                                                     className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-3 mb-1 ${activeSection === item.id
-                                                        ? (item.id === "dashboard" ? "bg-gradient-to-r from-brand-purple to-purple-500 text-white shadow-lg shadow-purple-500/30" : "bg-white text-brand-purple shadow-sm")
+                                                        ? "bg-brand-primary text-white shadow-md"
                                                         : "text-gray-700 hover:bg-white hover:shadow-md"}`}>
                                                     {item.icon}{item.label}
                                                 </button>
@@ -230,7 +230,7 @@ export default function ProfileDashboard() {
                                     });
                                 })()}
                                 <div className="mt-6 pt-4 border-t border-gray-200">
-                                    <button onClick={logout} className="w-full text-left px-4 py-2.5 rounded-lg text-sm text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-all flex items-center gap-3">
+                                    <button onClick={logout} className="w-full text-left px-4 py-2.5 rounded-lg text-sm text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all flex items-center gap-3">
                                         <LogOut className="w-4 h-4" />Logout
                                     </button>
                                 </div>
@@ -244,19 +244,19 @@ export default function ProfileDashboard() {
                         {/* ═══ DASHBOARD ═══ */}
                         {activeSection === "dashboard" && (
                             <>
-                                <div className="bg-gradient-to-r from-brand-purple via-purple-500 to-brand-purple rounded-2xl p-4 md:p-6 mb-4 md:mb-6 flex items-center gap-4 md:gap-6 shadow-xl">
+                                <div className="bg-brand-primary rounded-2xl p-4 md:p-6 mb-4 md:mb-6 flex items-center gap-4 md:gap-6 shadow-xl">
                                     <div className="relative">
-                                        <div className="w-14 h-14 md:w-20 md:h-20 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ring-2 ring-white/30 ring-offset-2 ring-offset-purple-600">
+                                        <div className="w-14 h-14 md:w-20 md:h-20 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ring-2 ring-white/30">
                                             {user?.image ? (<Image src={user.image} alt="Profile" width={80} height={80} className="w-full h-full object-cover" unoptimized />) : (
                                                 <svg className="w-7 h-7 md:w-10 md:h-10 text-white/70" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
                                             )}
                                         </div>
-                                        <div className="absolute bottom-0 right-0 w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full border-2 border-gray-900" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 md:w-4 md:h-4 bg-green-400 rounded-full border-2 border-white" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <h1 className="text-base md:text-xl font-bold text-white truncate">{userName}</h1>
-                                        <p className="text-white/60 text-xs md:text-sm truncate">{user?.email || user?.mobile_number || ""}</p>
-                                        <span className="inline-block mt-1 px-2 py-0.5 bg-brand-purple text-white text-[10px] md:text-xs font-bold rounded-full">MEMBER</span>
+                                        <p className="text-white/80 text-xs md:text-sm truncate">{user?.email || user?.mobile_number || ""}</p>
+                                        <span className="inline-block mt-1 px-2 py-0.5 bg-white/20 text-white text-[10px] md:text-xs font-bold rounded-full">MEMBER</span>
                                     </div>
                                     <button onClick={() => { setActiveSection("profile"); setIsEditing(true); }} className="px-3 py-1.5 md:px-5 md:py-2.5 bg-white text-gray-900 hover:bg-gray-100 rounded-lg text-xs md:text-sm font-semibold transition-colors whitespace-nowrap flex-shrink-0 shadow-lg">
                                         Edit Profile
@@ -265,13 +265,13 @@ export default function ProfileDashboard() {
 
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
                                     {[
-                                        { id: "orders", label: "Orders", desc: "Check order status", gradient: "from-blue-500 to-blue-600", shadow: "shadow-blue-500/30", icon: <Package className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
-                                        { id: "tracking", label: "Track Order", desc: "Track shipments", gradient: "from-emerald-500 to-teal-500", shadow: "shadow-emerald-500/30", icon: <Truck className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
-                                        { id: "coupons", label: "Coupons", desc: "Available discounts", gradient: "from-amber-500 to-purple-500", shadow: "shadow-amber-500/30", icon: <Tag className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
-                                        { id: "profile", label: "Profile", desc: "Edit your account", gradient: "from-violet-500 to-purple-600", shadow: "shadow-violet-500/30", icon: <User className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
+                                        { id: "orders", label: "Orders", desc: "Check order status", bgColor: "bg-blue-500", icon: <Package className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
+                                        { id: "tracking", label: "Track Order", desc: "Track shipments", bgColor: "bg-emerald-500", icon: <Truck className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
+                                        { id: "coupons", label: "Coupons", desc: "Available discounts", bgColor: "bg-amber-500", icon: <Tag className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
+                                        { id: "profile", label: "Profile", desc: "Edit your account", bgColor: "bg-brand-primary", icon: <User className="w-6 h-6 md:w-7 md:h-7 text-white" /> },
                                     ].map(card => (
-                                        <button key={card.id} onClick={() => setActiveSection(card.id)} className="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                                            <div className={`w-12 h-12 md:w-14 md:h-14 mx-auto mb-3 md:mb-4 bg-gradient-to-br ${card.gradient} rounded-xl flex items-center justify-center shadow-lg ${card.shadow} group-hover:scale-110 transition-transform`}>
+                                        <button key={card.id} onClick={() => setActiveSection(card.id)} className="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-gray-100">
+                                            <div className={`w-12 h-12 md:w-14 md:h-14 mx-auto mb-3 md:mb-4 ${card.bgColor} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
                                                 {card.icon}
                                             </div>
                                             <h3 className="font-bold text-gray-900 text-sm md:text-base mb-0.5">{card.label}</h3>
@@ -284,8 +284,8 @@ export default function ProfileDashboard() {
 
                         {/* ═══ ORDERS ═══ */}
                         {activeSection === "orders" && (
-                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                <div className="p-6 bg-gradient-to-r from-brand-purple to-purple-600">
+                            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div className="p-6 bg-brand-primary">
                                     <h2 className="text-2xl font-bold text-white">My Orders</h2>
                                     <p className="text-white/60 text-sm mt-1">Track and manage your orders</p>
                                 </div>
@@ -293,13 +293,13 @@ export default function ProfileDashboard() {
                                     <div className="flex">
                                         {ORDER_TABS.map(tab => {
                                             const TabIcon = tab.Icon;
-                                            return (<button key={tab.id} onClick={() => setActiveOrderTab(tab.id)} className={`flex items-center gap-2 px-4 md:px-6 py-4 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 transition-all ${activeOrderTab === tab.id ? "border-brand-purple text-brand-purple bg-white" : "border-transparent text-gray-500 hover:text-gray-700"}`}><TabIcon size={16} />{tab.label}</button>);
+                                            return (<button key={tab.id} onClick={() => setActiveOrderTab(tab.id)} className={`flex items-center gap-2 px-4 md:px-6 py-4 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 transition-all ${activeOrderTab === tab.id ? "border-brand-primary text-brand-primary bg-white" : "border-transparent text-gray-500 hover:text-gray-700"}`}><TabIcon size={16} />{tab.label}</button>);
                                         })}
                                     </div>
                                 </div>
                                 <div className="p-4 md:p-6">
                                     {ordersLoading ? (
-                                        <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-purple" /></div>
+                                        <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary" /></div>
                                     ) : orders.length > 0 ? (
                                         <div className="space-y-4">
                                             {orders.map(order => (
@@ -319,7 +319,7 @@ export default function ProfileDashboard() {
                                                                         <p className="text-xs text-gray-500 font-mono">#{order.invoice_id}</p>
                                                                     </div>
                                                                     <div className="text-right flex-shrink-0">
-                                                                        <p className="text-lg md:text-xl font-bold text-brand-purple">৳{(Number(order.sub_total ?? order.total ?? 0) + Number(order.delivery_fee ?? 0))}</p>
+                                                                        <p className="text-lg md:text-xl font-bold text-brand-primary">৳{(Number(order.sub_total ?? order.total ?? 0) + Number(order.delivery_fee ?? 0))}</p>
                                                                         <p className="text-xs text-gray-500 mt-1">{new Date(order.created_at).toLocaleDateString("en-US", { day: 'numeric', month: 'short' })}</p>
                                                                     </div>
                                                                 </div>
@@ -328,7 +328,7 @@ export default function ProfileDashboard() {
                                                                 <MapPin className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                                                                 <p className="truncate">{order.delivery_customer_address || "No address"}</p>
                                                             </div>
-                                                            <button onClick={() => setSelectedOrder(order)} className="mt-3 w-full py-2 px-3 bg-gray-100 hover:bg-brand-purple hover:text-white text-gray-700 text-xs font-semibold rounded-lg transition-all">View Details</button>
+                                                            <button onClick={() => setSelectedOrder(order)} className="mt-3 w-full py-2 px-3 bg-gray-100 hover:bg-brand-primary hover:text-white text-gray-700 text-xs font-semibold rounded-lg transition-all">View Details</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -336,7 +336,7 @@ export default function ProfileDashboard() {
                                         </div>
                                     ) : (
                                         <div className="text-center py-20">
-                                            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"><Package className="w-10 h-10 text-white" /></div>
+                                            <div className="w-20 h-20 bg-gray-100 border border-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4"><Package className="w-10 h-10 text-gray-400" /></div>
                                             <h3 className="font-bold text-gray-900 text-lg mb-2">No orders found</h3>
                                             <p className="text-gray-500 text-sm">Orders will appear here once you make a purchase</p>
                                         </div>
@@ -347,7 +347,7 @@ export default function ProfileDashboard() {
                                 {selectedOrder && (
                                     <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" onClick={() => setSelectedOrder(null)}>
                                         <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
-                                            <div className="p-6 bg-gradient-to-r from-brand-purple to-purple-600 sticky top-0 z-10">
+                                            <div className="p-6 bg-brand-primary sticky top-0 z-10">
                                                 <div className="flex items-center justify-between">
                                                     <div>
                                                         <h3 className="text-xl font-bold text-white">Order Details</h3>
@@ -377,7 +377,7 @@ export default function ProfileDashboard() {
                                                                     <p className="font-medium text-gray-900 text-sm line-clamp-1">{item.product_info?.name || "Product"}</p>
                                                                     <p className="text-xs text-gray-500 mt-1">Qty: {item.qty}{item.size ? ` • Size: ${item.size}` : ""}</p>
                                                                 </div>
-                                                                <div className="text-right"><p className="font-bold text-brand-purple">৳{item.price * item.qty}</p></div>
+                                                                <div className="text-right"><p className="font-bold text-gray-900">৳{item.price * item.qty}</p></div>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -386,7 +386,7 @@ export default function ProfileDashboard() {
                                                     <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span className="font-medium">৳{selectedOrder.sub_total || selectedOrder.total || 0}</span></div>
                                                     <div className="flex justify-between"><span className="text-gray-500">Delivery</span><span className="font-medium">৳{selectedOrder.delivery_fee || 0}</span></div>
                                                     {Number(selectedOrder.coupon_discount || 0) > 0 && <div className="flex justify-between text-green-600"><span>Coupon</span><span>-৳{selectedOrder.coupon_discount}</span></div>}
-                                                    <div className="flex justify-between pt-2 border-t font-bold text-lg"><span>Total</span><span className="text-brand-purple">৳{(Number(selectedOrder.sub_total ?? selectedOrder.total ?? 0) + Number(selectedOrder.delivery_fee ?? 0) - Number(selectedOrder.coupon_discount ?? 0))}</span></div>
+                                                    <div className="flex justify-between pt-2 border-t font-bold text-lg"><span>Total</span><span className="text-brand-primary">৳{(Number(selectedOrder.sub_total ?? selectedOrder.total ?? 0) + Number(selectedOrder.delivery_fee ?? 0) - Number(selectedOrder.coupon_discount ?? 0))}</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -397,15 +397,15 @@ export default function ProfileDashboard() {
 
                         {/* ═══ TRACKING ═══ */}
                         {activeSection === "tracking" && (
-                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                <div className="p-6 bg-gradient-to-r from-brand-purple to-purple-600">
+                            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div className="p-6 bg-brand-primary">
                                     <h2 className="text-2xl font-bold text-white">Track Order</h2>
                                     <p className="text-white/60 text-sm mt-1">Enter your invoice ID to track</p>
                                 </div>
                                 <div className="p-6">
                                     <form onSubmit={handleTrackOrder} className="flex gap-3 mb-6">
-                                        <input type="text" value={trackInvoiceId} onChange={e => setTrackInvoiceId(e.target.value)} placeholder="Enter Invoice ID (e.g. INV-12345)" className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm" />
-                                        <button type="submit" disabled={trackLoading} className="px-6 py-3 bg-brand-purple text-white font-bold rounded-xl hover:bg-[#7b3ba8] transition-colors disabled:opacity-70">
+                                        <input type="text" value={trackInvoiceId} onChange={e => setTrackInvoiceId(e.target.value)} placeholder="Enter Invoice ID (e.g. INV-12345)" className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm" />
+                                        <button type="submit" disabled={trackLoading} className="px-6 py-3 bg-brand-primary text-white font-bold rounded-xl hover:brightness-95 transition-colors disabled:opacity-70">
                                             {trackLoading ? <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" /> : "Track"}
                                         </button>
                                     </form>
@@ -427,21 +427,21 @@ export default function ProfileDashboard() {
 
                         {/* ═══ COUPONS ═══ */}
                         {activeSection === "coupons" && (
-                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                <div className="p-6 bg-gradient-to-r from-brand-purple to-purple-600">
+                            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div className="p-6 bg-brand-primary">
                                     <h2 className="text-2xl font-bold text-white">My Coupons</h2>
                                     <p className="text-white/60 text-sm mt-1">Your available discount codes</p>
                                 </div>
                                 <div className="p-6">
                                     {couponsLoading ? (
-                                        <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-purple" /></div>
+                                        <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary" /></div>
                                     ) : coupons.length > 0 ? (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {coupons.map((coupon, i) => (
-                                                <div key={i} className="border border-dashed border-purple-300 rounded-xl p-4 bg-purple-50/50 hover:shadow-md transition-all">
+                                                <div key={i} className="border border-dashed border-brand-primary/30 rounded-xl p-4 bg-brand-primary/5 hover:shadow-md transition-all">
                                                     <div className="flex items-center justify-between mb-2">
-                                                        <span className="px-3 py-1 bg-brand-purple text-white text-xs font-bold rounded-full">{coupon.coupon_code || coupon.code}</span>
-                                                        <span className="text-lg font-extrabold text-brand-purple">{coupon.discount_type === "percentage" ? `${coupon.discount}%` : `৳${coupon.discount}`}</span>
+                                                        <span className="px-3 py-1 bg-brand-primary text-white text-xs font-bold rounded-full">{coupon.coupon_code || coupon.code}</span>
+                                                        <span className="text-lg font-extrabold text-brand-primary">{coupon.discount_type === "percentage" ? `${coupon.discount}%` : `৳${coupon.discount}`}</span>
                                                     </div>
                                                     <p className="text-sm text-gray-600 mt-2">{coupon.description || "Use this code at checkout"}</p>
                                                     {coupon.min_order && <p className="text-xs text-gray-400 mt-1">Min order: ৳{coupon.min_order}</p>}
@@ -450,7 +450,7 @@ export default function ProfileDashboard() {
                                         </div>
                                     ) : (
                                         <div className="text-center py-20">
-                                            <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"><Tag className="w-10 h-10 text-white" /></div>
+                                            <div className="w-20 h-20 bg-gray-100 border border-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4"><Tag className="w-10 h-10 text-gray-400" /></div>
                                             <h3 className="font-bold text-gray-900 text-lg mb-2">No coupons yet</h3>
                                             <p className="text-gray-500 text-sm">Collected coupons will appear here</p>
                                         </div>
@@ -461,8 +461,8 @@ export default function ProfileDashboard() {
 
                         {/* ═══ PROFILE ═══ */}
                         {activeSection === "profile" && (
-                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                <div className="p-6 bg-gradient-to-r from-brand-purple to-purple-600 flex items-center justify-between">
+                            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                                <div className="p-6 bg-brand-primary flex items-center justify-between">
                                     <div><h2 className="text-2xl font-bold text-white">My Profile</h2><p className="text-white/60 text-sm mt-1">Manage your account details</p></div>
                                     {!isEditing && <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-white text-gray-900 hover:bg-gray-100 rounded-lg text-sm font-semibold flex items-center gap-2"><Edit3 className="w-4 h-4" />Edit</button>}
                                 </div>
@@ -471,14 +471,14 @@ export default function ProfileDashboard() {
                                         <form onSubmit={handleProfileUpdate} className="space-y-5">
                                             <div className="flex justify-center mb-4">
                                                 <div className="relative">
-                                                    <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden ring-4 ring-brand-purple/20">
+                                                    <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden border-4 border-gray-100">
                                                         {profileImagePreview || user?.image ? (
                                                             <Image src={profileImagePreview || user.image} alt="Profile" width={96} height={96} className="w-full h-full object-cover" unoptimized />
                                                         ) : (
                                                             <div className="flex h-full w-full items-center justify-center text-gray-400"><User className="w-10 h-10" /></div>
                                                         )}
                                                     </div>
-                                                    <label className="absolute bottom-0 right-0 w-8 h-8 bg-brand-purple text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-[#7b3ba8] transition-colors">
+                                                    <label className="absolute bottom-0 right-0 w-8 h-8 bg-brand-primary text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:brightness-95 transition-colors">
                                                         <Camera className="w-4 h-4" />
                                                         <input type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files[0]; if (file) { setProfileImage(file); setProfileImagePreview(URL.createObjectURL(file)); } }} />
                                                     </label>
@@ -487,28 +487,28 @@ export default function ProfileDashboard() {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div>
                                                     <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider">First Name</label>
-                                                    <input type="text" value={formData.first_name} onChange={e => setFormData({ ...formData, first_name: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm" />
+                                                    <input type="text" value={formData.first_name} onChange={e => setFormData({ ...formData, first_name: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm" />
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider">Last Name</label>
-                                                    <input type="text" value={formData.last_name} onChange={e => setFormData({ ...formData, last_name: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm" />
+                                                    <input type="text" value={formData.last_name} onChange={e => setFormData({ ...formData, last_name: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm" />
                                                 </div>
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider">Email</label>
-                                                <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm" />
+                                                <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm" />
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider">Phone</label>
-                                                <input type="tel" value={formData.mobile_number} onChange={e => setFormData({ ...formData, mobile_number: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm" />
+                                                <input type="tel" value={formData.mobile_number} onChange={e => setFormData({ ...formData, mobile_number: e.target.value })} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm" />
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wider">Address</label>
-                                                <textarea value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} rows={3} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple text-sm resize-none" />
+                                                <textarea value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} rows={3} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-sm resize-none" />
                                             </div>
                                             <div className="flex gap-3">
                                                 <button type="button" onClick={() => { setIsEditing(false); setProfileImage(null); setProfileImagePreview(null); }} className="flex-1 py-3 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors">Cancel</button>
-                                                <button type="submit" disabled={isUpdating} className="flex-1 py-3 bg-brand-purple text-white font-bold rounded-xl shadow-lg shadow-brand-purple/30 hover:bg-[#7b3ba8] transition-all disabled:opacity-70">
+                                                <button type="submit" disabled={isUpdating} className="flex-1 py-3 bg-brand-primary text-white font-bold rounded-xl shadow-md hover:brightness-95 transition-all disabled:opacity-70">
                                                     {isUpdating ? "Saving..." : "Save Changes"}
                                                 </button>
                                             </div>
@@ -516,7 +516,7 @@ export default function ProfileDashboard() {
                                     ) : (
                                         <div className="space-y-6">
                                             <div className="flex items-center gap-4 mb-6">
-                                                <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden ring-4 ring-brand-purple/20 flex-shrink-0">
+                                                <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden border-4 border-gray-100 flex-shrink-0">
                                                     {user?.image ? <Image src={user.image} alt="Profile" width={80} height={80} className="w-full h-full object-cover" unoptimized /> : <div className="flex h-full w-full items-center justify-center text-gray-400"><User className="w-8 h-8" /></div>}
                                                 </div>
                                                 <div>

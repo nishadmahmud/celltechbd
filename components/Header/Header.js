@@ -81,7 +81,7 @@ export default function Header({ categories = [] }) {
 
   return (
     <>
-      <header className="w-full sticky top-0 z-50 transition-all duration-300">
+      <header className="w-full sticky top-0 z-[90] transition-all duration-300">
 
         {/* ─── MOBILE HEADER ─── */}
         <div className="md:hidden pt-3 pb-2.5 px-3 bg-gray-50/80 backdrop-blur-md">
@@ -91,14 +91,23 @@ export default function Header({ categories = [] }) {
               <Image src="/CTBD Text.png" alt="Cell Tech BD" width={100} height={26} className="h-5 sm:h-6 w-auto object-contain" unoptimized priority />
             </Link>
 
-            {/* Mobile Search Trigger */}
-            <div 
-              onClick={openSearchModal} 
-              className="flex-grow flex items-center bg-white/10 hover:bg-white/15 border border-white/5 rounded-full px-2.5 py-1.5 mx-2 cursor-pointer transition-colors"
-            >
-              <FiSearch className="text-gray-300 mr-2 flex-shrink-0 w-3.5 h-3.5" />
-              <span className="text-gray-300 text-xs sm:text-[13px] whitespace-nowrap">Search...</span>
-            </div>
+            {/* Mobile Search Input */}
+            <form onSubmit={handleSearchSubmit} className={`flex-grow flex items-center bg-white/10 focus-within:bg-white/20 border ${isSearchOpen || showSearchModal ? 'border-brand-primary' : 'border-white/5'} rounded-full px-2.5 py-1.5 mx-2 transition-colors`}>
+              <FiSearch className={`${isSearchOpen || showSearchModal ? 'text-brand-primary' : 'text-gray-300'} mr-2 flex-shrink-0 w-3.5 h-3.5 transition-colors`} />
+              <input
+                type="text"
+                value={searchQuery}
+                onFocus={() => setShowSearchModal(true)}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="bg-transparent border-none outline-none text-[16px] text-white placeholder-gray-300 min-w-0 w-full"
+              />
+              {(showSearchModal || searchQuery) && (
+                <button type="button" onClick={() => { setSearchQuery(''); closeSearchModal(); }} className="text-gray-400 hover:text-white p-0.5 ml-1 flex-shrink-0">
+                  <FiX size={14} />
+                </button>
+              )}
+            </form>
 
             {/* Icons */}
             <div className="flex items-center gap-0.5 flex-shrink-0 mr-1">
@@ -242,11 +251,11 @@ export default function Header({ categories = [] }) {
             <div className="fixed inset-0 bg-black/40 z-[80]" onClick={closeSearchModal} />
 
             {/* Modal */}
-            <div className="fixed inset-0 z-[85] flex items-start justify-center pt-16 md:pt-20 px-4">
-              <div className="w-full max-w-6xl bg-[#F5F6F8] rounded-2xl shadow-2xl max-h-[80vh] flex flex-col overflow-hidden border border-gray-200">
+            <div className="fixed inset-0 z-[85] flex items-start justify-center pt-16 md:pt-20 px-4 pointer-events-none">
+              <div className="w-full max-w-6xl bg-[#F5F6F8] rounded-2xl shadow-2xl max-h-[80vh] flex flex-col overflow-hidden border border-gray-200 pointer-events-auto">
 
-                {/* Search Bar — Always at Top */}
-                <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex-shrink-0">
+                {/* Search Bar — Always at Top (Desktop Only) */}
+                <div className="hidden md:block bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex-shrink-0">
                   <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-50 border border-gray-200 focus-within:border-brand-primary focus-within:shadow-[0_2px_12px_rgba(57,178,74,0.1)] rounded-full px-4 py-2.5 transition-all duration-300 group">
                     <FiSearch className="text-gray-400 group-focus-within:text-brand-primary mr-3 flex-shrink-0 w-5 h-5" />
                     <input
@@ -279,8 +288,11 @@ export default function Header({ categories = [] }) {
                   <>
                     {/* Mobile: Category Pills */}
                     <div className="md:hidden sticky top-0 bg-white z-10 border-b border-gray-200">
-                      <div className="flex items-center justify-between px-4 pt-3 pb-2">
+                      <div className="flex items-center justify-between px-4 pt-4 pb-2">
                         <h3 className="text-sm font-bold text-gray-800">{filteredSearchResults.length} Results</h3>
+                        <button onClick={closeSearchModal} className="w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-500 transition-colors">
+                          <FiX size={16} />
+                        </button>
                       </div>
                       <div className="flex gap-2 px-4 pb-3 overflow-x-auto no-scrollbar">
                         <button onClick={() => setActiveSearchCategory('all')} className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${activeSearchCategory === 'all' ? 'bg-brand-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-brand-primary'}`}>All ({searchResults.length})</button>
@@ -380,10 +392,10 @@ export default function Header({ categories = [] }) {
       </header>
 
       {/* ─── Mobile Sidebar Overlay ─── */}
-      {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[60] md:hidden transition-opacity" onClick={closeSidebar} />}
+      {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[100] md:hidden transition-opacity" onClick={closeSidebar} />}
 
       {/* ─── Mobile Sidebar Drawer ─── */}
-      <div className={`fixed inset-y-0 left-0 w-[300px] bg-gray-50 z-[70] transform transition-transform duration-300 ease-in-out flex flex-col md:hidden shadow-[20px_0_40px_rgba(0,0,0,0.15)] rounded-r-[2rem] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed inset-y-0 left-0 w-[300px] bg-gray-50 z-[110] transform transition-transform duration-300 ease-in-out flex flex-col md:hidden shadow-[20px_0_40px_rgba(0,0,0,0.15)] rounded-r-[2rem] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
         {/* Top Header & Header Profile Block */}
         <div className="bg-[#2D2D2D] text-white rounded-tr-[2rem] pt-6 pb-6 px-6 relative overflow-hidden flex-shrink-0 shadow-lg">

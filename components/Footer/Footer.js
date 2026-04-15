@@ -145,23 +145,14 @@ export default function Footer() {
                 <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <span className="text-sm font-bold text-gray-700">Connect with us</span>
                     <div className="flex items-center gap-3">
-                        <a href={SITE_INFO.social?.facebook || '#'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Facebook">
+                        <a href="https://www.facebook.com/CellTech69" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Facebook">
                             <FaFacebook size={16} />
-                        </a>
-                        <a href={SITE_INFO.social?.instagram || '#'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Instagram">
-                            <FaInstagram size={16} />
-                        </a>
-                        <a href={SITE_INFO.social?.tiktok || '#'} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="TikTok">
-                            <FaTiktok size={16} />
-                        </a>
-                        <a href="#" className="w-9 h-9 rounded-full bg-red-600 text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="YouTube">
-                            <FaYoutube size={16} />
                         </a>
                         <a href={`https://wa.me/${SITE_INFO.whatsappNumberIntl}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="WhatsApp">
                             <FaWhatsapp size={16} />
                         </a>
-                        <a href="#" className="w-9 h-9 rounded-full bg-[#0A66C2] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="LinkedIn">
-                            <FaLinkedin size={16} />
+                        <a href="mailto:celltechbd23@gmail.com" className="w-9 h-9 rounded-full bg-red-500 text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Email">
+                            <HiOutlineMail size={16} />
                         </a>
                     </div>
                 </div>
