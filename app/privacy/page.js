@@ -59,7 +59,7 @@ const sections = [
         content: [
             "You have the right to access, update, or delete your personal information through your account settings.",
             "You may opt out of marketing communications at any time by unsubscribing from our emails.",
-            "You may request a copy of the data we hold about you by contacting us at celltechbd23@gmail.com.",
+            "You may request a copy of the data we hold about you by contacting us at celltechbd00@gmail.com.",
         ],
     },
     {

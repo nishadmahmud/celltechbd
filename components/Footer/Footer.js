@@ -46,7 +46,7 @@ export default function Footer() {
                             <div className="flex items-start gap-2 text-sm">
                                 <HiOutlineLocationMarker className="mt-0.5 text-brand-primary shrink-0" size={18} />
                                 <span className="text-gray-500 text-[13px] leading-relaxed font-medium">
-                                    {SITE_INFO.outlets?.[0]?.details?.join(', ') || 'Bashundhara City, Dhaka'}
+                                    {SITE_INFO.outlets?.[0]?.details?.join(', ') || 'Basement -1, Shop No 70, Bashundhara City, Panthapath, Dhaka 1215, Bangladesh'}
                                 </span>
                             </div>
                             <a href={`tel:${SITE_INFO.phoneDial}`} className="inline-flex items-center gap-2 text-[14px] font-bold text-gray-700 hover:text-brand-primary transition-colors">
@@ -151,7 +151,7 @@ export default function Footer() {
                         <a href={`https://wa.me/${SITE_INFO.whatsappNumberIntl}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="WhatsApp">
                             <FaWhatsapp size={16} />
                         </a>
-                        <a href="mailto:celltechbd23@gmail.com" className="w-9 h-9 rounded-full bg-red-500 text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Email">
+                        <a href="mailto:celltechbd00@gmail.com" className="w-9 h-9 rounded-full bg-red-500 text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-md shadow-sm transition-all" aria-label="Email">
                             <HiOutlineMail size={16} />
                         </a>
                     </div>

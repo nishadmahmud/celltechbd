@@ -8,6 +8,9 @@ export const metadata = {
 
 export default function ContactPage() {
     const primaryOutlet = SITE_INFO.outlets?.[0];
+    const mapQuery = primaryOutlet
+        ? encodeURIComponent([primaryOutlet.name, ...(primaryOutlet.details || [])].join(', '))
+        : encodeURIComponent('Bashundhara City, Panthapath, Dhaka, Bangladesh');
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20 md:pb-10">
@@ -74,16 +77,29 @@ export default function ContactPage() {
                     <section>
                         <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-5">Visit Our Store</h2>
                         {primaryOutlet && (
-                            <div className="flex items-start gap-4 p-5 bg-gray-50 rounded-xl border border-gray-100">
-                                <div className="text-brand-purple bg-brand-purple/10 p-3 rounded-lg flex-shrink-0">
-                                    <FiMapPin size={22} />
+                            <div className="space-y-4">
+                                <div className="flex items-start gap-4 p-5 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div className="text-brand-purple bg-brand-purple/10 p-3 rounded-lg flex-shrink-0">
+                                        <FiMapPin size={22} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-gray-900 text-lg">{primaryOutlet.name}</h3>
+                                        {primaryOutlet.details.map((line) => (
+                                            <p key={line} className="text-sm text-gray-600 mt-1">{line}</p>
+                                        ))}
+                                        <p className="text-xs text-gray-400 mt-2">Please call before visiting to confirm availability.</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-gray-900 text-lg">{primaryOutlet.name}</h3>
-                                    {primaryOutlet.details.map((line) => (
-                                        <p key={line} className="text-sm text-gray-600 mt-1">{line}</p>
-                                    ))}
-                                    <p className="text-xs text-gray-400 mt-2">Please call before visiting to confirm availability.</p>
+
+                                <div className="overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
+                                    <iframe
+                                        title={`Map to ${primaryOutlet.name}`}
+                                        src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        className="w-full h-72 md:h-96 border-0"
+                                        allowFullScreen
+                                    />
                                 </div>
                             </div>
                         )}
