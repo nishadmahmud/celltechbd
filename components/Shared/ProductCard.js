@@ -24,9 +24,30 @@ export default function ProductCard({ product, variant = 'default' }) {
         product.brand || product.brand_name || product.brands?.name || ''
     ).trim();
 
+    const cacheProductSeed = () => {
+        if (typeof window === 'undefined' || !product?.id) return;
+        try {
+            const seed = {
+                id: product.id,
+                name: product.name || '',
+                brand: productBrand,
+                imageUrl: product.imageUrl || '/no-image.svg',
+                price: product.price || '',
+                oldPrice: product.oldPrice || null,
+                discount: product.discount || null,
+                rawPrice: Number(product.rawPrice || 0),
+                ts: Date.now()
+            };
+            window.sessionStorage.setItem(`product_seed_${product.id}`, JSON.stringify(seed));
+        } catch {
+            // Ignore sessionStorage errors (private mode/quota).
+        }
+    };
+
     return (
         <Link
             href={`/product/${slug}`}
+            onClick={cacheProductSeed}
             className="bg-white rounded-2xl flex flex-col text-left hover:-translate-y-1 transition-all duration-400 group overflow-hidden relative block h-full w-full border border-gray-200 hover:border-brand-primary/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
         >
             {/* Image Area */}

@@ -10,6 +10,81 @@ import ProductTabs from '../../../components/Product/ProductTabs';
 import ProductCard from '../../../components/Shared/ProductCard';
 import { getProductById, getRelatedProduct } from '../../../lib/api';
 
+const PRODUCT_SEED_TTL_MS = 15 * 60 * 1000;
+
+function mapApiProductToViewModel(p) {
+    const originalPrice = Number(p?.retails_price || 0);
+    const discountValue = Number(p?.discount || 0);
+    const discountType = String(p?.discount_type || '').toLowerCase();
+    const hasDiscount = discountValue > 0 && discountType !== '0';
+
+    const price = hasDiscount
+        ? discountType === 'percentage'
+            ? Math.max(0, Math.round(originalPrice * (1 - discountValue / 100)))
+            : Math.max(0, originalPrice - discountValue)
+        : originalPrice;
+
+    const discountLabel = hasDiscount
+        ? discountType === 'percentage'
+            ? `-${discountValue}%`
+            : `৳ ${discountValue.toLocaleString('en-IN')}`
+        : null;
+
+    const images =
+        (Array.isArray(p?.images) && p.images.length > 0 && p.images) ||
+        (Array.isArray(p?.imei_image) && p.imei_image.filter(Boolean)) ||
+        (p?.image_path ? [p.image_path] : []) ||
+        ['/no-image.svg'];
+
+    const rawImeis = Array.isArray(p?.imeis) ? p.imeis.filter(i => i.in_stock === 1) : [];
+
+    return {
+        id: p.id,
+        name: p.name,
+        price: `৳ ${price.toLocaleString('en-IN')}`,
+        rawPrice: price,
+        originalPrice,
+        oldPrice: hasDiscount
+            ? `৳ ${originalPrice.toLocaleString('en-IN')}`
+            : null,
+        discount: discountLabel,
+        discountValue,
+        discountType,
+        hasDiscount,
+        images,
+        rawImeis,
+        description: p.description || '',
+        specifications: Array.isArray(p.specifications) ? p.specifications : [],
+        category: {
+            id: p.category_id || p.category?.id,
+            name: p.category_name || p.category?.name,
+            slug: p.category_slug || p.category?.slug || (p.category_name || p.category?.name)?.toLowerCase().replace(/\s+/g, '-')
+        }
+    };
+}
+
+function mapSeedToViewModel(seed) {
+    const basePrice = Number(seed?.rawPrice || 0);
+    const safeName = seed?.name || 'Product';
+    return {
+        id: seed?.id,
+        name: safeName,
+        price: seed?.price || `৳ ${basePrice.toLocaleString('en-IN')}`,
+        rawPrice: basePrice,
+        originalPrice: basePrice,
+        oldPrice: seed?.oldPrice || null,
+        discount: seed?.discount || null,
+        discountValue: 0,
+        discountType: 'fixed',
+        hasDiscount: Boolean(seed?.oldPrice || seed?.discount),
+        images: [seed?.imageUrl || '/no-image.svg'],
+        rawImeis: [],
+        description: '',
+        specifications: [],
+        category: {}
+    };
+}
+
 export default function ProductDetailsPage() {
     const params = useParams();
     const slug = typeof params.slug === 'string' ? params.slug : params.slug?.[0] || '';
@@ -33,7 +108,8 @@ export default function ProductDetailsPage() {
     }, [slug]);
 
     const [productData, setProductData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isInitialLoading, setIsInitialLoading] = useState(true);
+    const [isHydrating, setIsHydrating] = useState(false);
     const [error, setError] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [variantImages, setVariantImages] = useState(null);
@@ -55,7 +131,8 @@ export default function ProductDetailsPage() {
 
     useEffect(() => {
         if (!productId) {
-            setIsLoading(false);
+            setIsInitialLoading(false);
+            setIsHydrating(false);
             setError('Invalid product.');
             return;
         }
@@ -63,7 +140,41 @@ export default function ProductDetailsPage() {
         let cancelled = false;
 
         const load = async () => {
-            setIsLoading(true);
+            setError('');
+            setIsHydrating(true);
+
+            let hasSeed = false;
+            if (typeof window !== 'undefined') {
+                try {
+                    const rawSeed = window.sessionStorage.getItem(`product_seed_${productId}`);
+                    if (rawSeed) {
+                        const seed = JSON.parse(rawSeed);
+                        const isValidSeed = seed && Number(seed.id) === Number(productId) && Number(seed.ts || 0) > 0;
+                        if (!isValidSeed) {
+                            window.sessionStorage.removeItem(`product_seed_${productId}`);
+                        } else if (Date.now() - Number(seed.ts) > PRODUCT_SEED_TTL_MS) {
+                            window.sessionStorage.removeItem(`product_seed_${productId}`);
+                        } else if (!cancelled) {
+                            hasSeed = true;
+                            const seedMapped = mapSeedToViewModel(seed);
+                            setProductData(seedMapped);
+                            setVariantImages(null);
+                            setSelectedCarePlans([]);
+                            setPricingInfo({
+                                selectedPrice: seedMapped.rawPrice,
+                                offerPrice: seedMapped.rawPrice,
+                                regularPrice: seedMapped.originalPrice,
+                                hasDiscount: seedMapped.hasDiscount,
+                                usingOfferPrice: seedMapped.hasDiscount
+                            });
+                        }
+                    }
+                } catch {
+                    window.sessionStorage.removeItem(`product_seed_${productId}`);
+                }
+            }
+
+            setIsInitialLoading(!hasSeed);
             setError('');
             try {
                 const res = await getProductById(productId);
@@ -73,56 +184,7 @@ export default function ProductDetailsPage() {
                 }
 
                 const p = payload;
-
-                const originalPrice = Number(p.retails_price || 0);
-                const discountValue = Number(p.discount || 0);
-                const discountType = String(p.discount_type || '').toLowerCase();
-                const hasDiscount = discountValue > 0 && discountType !== '0';
-
-                const price = hasDiscount
-                    ? discountType === 'percentage'
-                        ? Math.max(0, Math.round(originalPrice * (1 - discountValue / 100)))
-                        : Math.max(0, originalPrice - discountValue)
-                    : originalPrice;
-
-                const discountLabel = hasDiscount
-                    ? discountType === 'percentage'
-                        ? `-${discountValue}%`
-                        : `৳ ${discountValue.toLocaleString('en-IN')}`
-                    : null;
-
-                const images =
-                    (Array.isArray(p.images) && p.images.length > 0 && p.images) ||
-                    (Array.isArray(p.imei_image) && p.imei_image.filter(Boolean)) ||
-                    (p.image_path ? [p.image_path] : []) ||
-                    ['/no-image.svg'];
-
-                // Pass the raw imeis array for dynamic variant logic
-                const rawImeis = Array.isArray(p.imeis) ? p.imeis.filter(i => i.in_stock === 1) : [];
-
-                const mappedProduct = {
-                    id: p.id,
-                    name: p.name,
-                    price: `৳ ${price.toLocaleString('en-IN')}`,
-                    rawPrice: price,
-                    originalPrice,
-                    oldPrice: hasDiscount
-                        ? `৳ ${originalPrice.toLocaleString('en-IN')}`
-                        : null,
-                    discount: discountLabel,
-                    discountValue,
-                    discountType,
-                    hasDiscount,
-                    images,
-                    rawImeis,
-                    description: p.description || '',
-                    specifications: Array.isArray(p.specifications) ? p.specifications : [],
-                    category: {
-                        id: p.category_id || p.category?.id,
-                        name: p.category_name || p.category?.name,
-                        slug: p.category_slug || p.category?.slug || (p.category_name || p.category?.name)?.toLowerCase().replace(/\s+/g, '-')
-                    }
-                };
+                const mappedProduct = mapApiProductToViewModel(p);
 
                 if (!cancelled) {
                     setProductData(mappedProduct);
@@ -138,32 +200,33 @@ export default function ProductDetailsPage() {
                 }
 
                 // Load related products
-                try {
-                    const relatedRes = await getRelatedProduct(p.id);
-                    const relatedPayload = relatedRes?.data || relatedRes;
-                    const relatedItems = Array.isArray(relatedPayload?.data)
-                        ? relatedPayload.data
-                        : Array.isArray(relatedPayload)
-                            ? relatedPayload
-                            : [];
+                getRelatedProduct(p.id)
+                    .then((relatedRes) => {
+                        const relatedPayload = relatedRes?.data || relatedRes;
+                        const relatedItems = Array.isArray(relatedPayload?.data)
+                            ? relatedPayload.data
+                            : Array.isArray(relatedPayload)
+                                ? relatedPayload
+                                : [];
 
-                    if (!cancelled) {
-                        const mappedRelated = relatedItems.map((rp) => {
-                            const rpPrice = Number(rp.retails_price || 0);
-                            return {
-                                id: rp.id,
-                                name: rp.name,
-                                price: `৳ ${rpPrice.toLocaleString('en-IN')}`,
-                                oldPrice: null,
-                                discount: null,
-                                imageUrl: rp.image_path || rp.image_path1 || rp.image_path2 || '/no-image.svg',
-                            };
-                        });
-                        setRelatedProducts(mappedRelated.slice(0, 8));
-                    }
-                } catch {
-                    // ignore related errors
-                }
+                        if (!cancelled) {
+                            const mappedRelated = relatedItems.map((rp) => {
+                                const rpPrice = Number(rp.retails_price || 0);
+                                return {
+                                    id: rp.id,
+                                    name: rp.name,
+                                    price: `৳ ${rpPrice.toLocaleString('en-IN')}`,
+                                    oldPrice: null,
+                                    discount: null,
+                                    imageUrl: rp.image_path || rp.image_path1 || rp.image_path2 || '/no-image.svg',
+                                };
+                            });
+                            setRelatedProducts(mappedRelated.slice(0, 8));
+                        }
+                    })
+                    .catch(() => {
+                        // ignore related errors
+                    });
             } catch (err) {
                 console.error('Failed to load product details', err);
                 if (!cancelled) {
@@ -171,7 +234,8 @@ export default function ProductDetailsPage() {
                 }
             } finally {
                 if (!cancelled) {
-                    setIsLoading(false);
+                    setIsInitialLoading(false);
+                    setIsHydrating(false);
                 }
             }
         };
@@ -221,7 +285,7 @@ export default function ProductDetailsPage() {
 
             <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-                {isLoading ? (
+                {isInitialLoading ? (
                     <div className="py-20 flex flex-col items-center justify-center">
                         <div className="w-10 h-10 border-4 border-brand-purple/20 border-t-brand-purple rounded-full animate-spin mb-4"></div>
                         <p className="text-sm text-gray-500">Loading product details…</p>
@@ -249,6 +313,9 @@ export default function ProductDetailsPage() {
                                 }
                             />
                         </div>
+                        {isHydrating && (
+                            <p className="text-xs text-gray-400 mt-3">Updating latest product details...</p>
+                        )}
 
                         {/* Bottom: Tabs */}
                         <ProductTabs
